@@ -1,0 +1,120 @@
+import {
+  BuildingOfficeIcon,
+  ComputerDesktopIcon,
+  HomeModernIcon,
+  PuzzlePieceIcon,
+  ShoppingBagIcon,
+  ShoppingBagIcon as ShoppingBagIconSolid,
+  TvIcon,
+  PhoneIcon,
+  HeartIcon,
+  FaceSmileIcon,
+  TruckIcon,
+  ChevronRightIcon,
+} from "@heroicons/react/24/outline";
+
+export const categoriesData = [
+  {
+    name: "Official Stores",
+    icon: ShoppingBagIcon,
+    megaMenu: {
+      Stores: ["Jumia Mall", "Global Shop", "Official Stores"],
+      "Top Brands": ["Tecno", "Samsung", "Infinix", "LG", "HP"],
+    },
+  },
+  {
+    name: "Phones & Tablets",
+    icon: PhoneIcon,
+    megaMenu: {
+      "Phones & Accessories": [
+        "Samsung",
+        "Tecno",
+        "Infinix",
+        "FreeYond",
+        "Oraimo",
+      ],
+      Home: ["Solarmax", "Nunix", "Annov", "Redberry", "Miniso"],
+      Fashion: ["adidas", "Ecko Unltd", "DeFacto"],
+    },
+  },
+  {
+    name: "TVs & Audio",
+    icon: TvIcon,
+    megaMenu: {
+      Electronics: ["Vitron", "Vision Plus", "TCL", "Hisense", "Multichoice"],
+      "Health & Beauty": [
+        "Garnier",
+        "Nivea",
+        "Maybelline",
+        "MAC",
+        "Nice & Lovely",
+      ],
+      "Baby Products": ["Huggies", "Pampers", "Johnson's Baby"],
+    },
+  },
+  {
+    name: "Appliances",
+    icon: HomeModernIcon,
+    megaMenu: {
+      Appliances: ["Nunix", "Roch", "Ramtons", "Hotpoint", "Mika"],
+      Computing: ["HP", "Lenovo", "Dell", "Canon", "Asus"],
+      Grocery: ["PRK", "EABL", "Unilever", "P&G"],
+    },
+  },
+  {
+    name: "Other categories",
+    icon: ChevronRightIcon,
+    megaMenu: {
+      "Sporting Goods": [
+        "Sports & Fitness",
+        "SHOP BY BRANDS",
+        "Sports Nutrition",
+        "Outdoor Recreation",
+      ],
+      Automobile: [
+        "Car Electronics & Accessories",
+        "Car Safety & Security",
+        "Motorcycle & Powersports",
+        "Lights & Lighting Accessories",
+        "Replacement Parts",
+      ],
+      "Garden & Outdoors": [
+        "Gardening & Lawn Care",
+        "Grilling & Outdoor Cooking",
+        "Outdoor Decor",
+        "Patio Furniture & Accessories",
+        "Farm & Ranch",
+      ],
+      "Books, Movies and Music": [
+        "Education & Learning",
+        "Biography & Autobiography",
+        "Literature",
+        "Children & Teens",
+        "Study Aids",
+        "Christian Books & Bibles",
+      ],
+      Miscellaneous: [
+        "Musical Instruments",
+        "Pet Supplies",
+        "Services",
+        "Toys & Games",
+        "Electronics",
+        "Televisions",
+        "Home Audio",
+        "Accessories & Supplies",
+        "Cameras",
+        "Best Seller TV Brands",
+      ],
+      "Industrial & Scientific": ["Industrial & Scientific"],
+      Livestock: ["Livestock"],
+    },
+  },
+
+  { name: "Health & Beauty", icon: HeartIcon, megaMenu: {} },
+  { name: "Home & Office", icon: BuildingOfficeIcon, megaMenu: {} },
+  { name: "Fashion", icon: ShoppingBagIconSolid, megaMenu: {} },
+  { name: "Computing", icon: ComputerDesktopIcon, megaMenu: {} },
+  { name: "Gaming", icon: PuzzlePieceIcon, megaMenu: {} },
+  { name: "Supermarket", icon: TruckIcon, megaMenu: {} },
+  { name: "Baby products", icon: FaceSmileIcon, megaMenu: {} },
+];
