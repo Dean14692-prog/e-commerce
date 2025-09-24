@@ -28,7 +28,7 @@ const HeroBanner = () => {
     image,
     alt,
     bgClass,
-    textPosition, // Added textPosition for flexibility
+    textPosition,
   } = banners[currentBanner];
 
   // Helper for text alignment
@@ -39,14 +39,12 @@ const HeroBanner = () => {
 
   return (
     <div
-      className={`relative ${bgClass} p-8 rounded-md text-white overflow-hidden h-[400px] flex`}
+      className={`relative ${bgClass} p-8 rounded-md text-white overflow-hidden h-auto md:h-[400px] flex flex-col md:flex-row`}
     >
       {/* Background elements for Blender banner - Specific to banner ID 3 */}
       {banners[currentBanner].id === 3 && (
         <>
-
-          <div className="absolute right-0 top-0 h-full w-1/3 bg-green-700 clip-path-polygon-[15%_0%,_100%_0%,_100%_100%,_0%_100%]">
-   
+          <div className="absolute right-0 top-0 h-full w-1/3 bg-green-700 clip-path-polygon-[15%_0%,_100%_0%,_100%_100%,_0%_100%] hidden md:block">
             <div
               className="absolute inset-0 opacity-10 bg-no-repeat bg-right-bottom"
               style={{
@@ -74,26 +72,24 @@ const HeroBanner = () => {
 
       {/* Banner Text Content */}
       <div
-        className={`relative z-10 flex flex-col justify-center h-full w-2/3 ${textAlignmentClass}`}
+        className={`relative z-10 flex flex-col justify-center h-full w-full md:w-2/3 ${textAlignmentClass} text-center md:text-left`}
       >
         {heading}
-        {subheading && <div className="mt-2">{subheading}</div>}{" "}
-        {/* Add margin if subheading exists */}
-        {description && <div className="mt-2">{description}</div>}{" "}
-        {/* Add margin if description exists */}
+        {subheading && <div className="mt-2">{subheading}</div>}
+        {description && <div className="mt-2">{description}</div>}
         {buttonText && (
-          <button className="mt-6 py-2 px-6 rounded-md font-semibold text-sm bg-white text-black hover:opacity-90 transition-opacity self-start">
+          <button className="mt-6 py-2 px-6 rounded-md font-semibold text-sm bg-white text-black hover:opacity-90 transition-opacity self-center md:self-start">
             {buttonText}
           </button>
         )}
       </div>
 
       {/* Image Container */}
-      <div className="absolute inset-y-0 right-0 w-2/3">
+      <div className="relative md:absolute inset-y-0 right-0 w-full md:w-1/3">
         <img
           src={image}
           alt={alt}
-          className="h-full w-full object-cover object-right" 
+          className="h-full w-full object-cover object-right"
         />
       </div>
 

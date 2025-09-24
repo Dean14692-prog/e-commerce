@@ -1,36 +1,24 @@
-
-
-import React, { useRef } from 'react';
-import Navbar from './components/Navbar';
-import Sidebar from './components/Sidebar';
-import MainContent from './components/MainContent';
-import FlashSales from './components/FlashSale';
-import CardButtons from './components/CardButtons';
-import ComputingDeals from './components/ComputingDeals';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Navbar from "./components/Navbar";
+import HomePage from "./pages/HomePage";
+import Electronics from "./pages/Electronics";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
 
 const App = () => {
-  const heroBannerRef = useRef(null);
-
   return (
-    <div className="min-h-screen font-sans bg-[#1a2037]">
-      <Navbar />
-      <div className="container mx-auto px-4 mt-4 flex space-x-4">
-        <Sidebar heroBannerRef={heroBannerRef} />
-        <MainContent heroBannerRef={heroBannerRef} />
+    <BrowserRouter>
+      <div className="min-h-screen font-sans bg-[#1a2037]">
+        <Navbar />
+
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/electronics" element={<Electronics />} />
+        </Routes>
       </div>
-      <div>
-        <ComputingDeals />
-        {/* <FlashSales /> */}
-        <CardButtons />
-        <ComputingDeals />
-        <ComputingDeals />
-        <ComputingDeals />
-        <ComputingDeals />
-        <ComputingDeals />
-        <ComputingDeals />
-        <ComputingDeals />
-      </div>
-    </div>
+    </BrowserRouter>
   );
 };
 

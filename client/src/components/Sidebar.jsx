@@ -19,7 +19,7 @@
 //           top: Math.max(rect.top, 0),
 //           left: rect.left,
 //           width: rect.width,
-//           height: rect.height, // This will be ignored and overridden below
+//           height: rect.height,
 //         });
 //       }
 //     };
@@ -42,18 +42,20 @@
 //   }, [heroBannerRef]);
 
 //   return (
-//     <aside className="relative w-1/5 p-4 bg-white rounded-md shadow-sm z-30">
-//       <ul className="space-y-2 text-sm text-gray-700">
+//     <aside className="relative w-1/6 h-[400px] p-4 bg-white rounded-md shadow-sm z-30 ml-10">
+//       <ul className="text-sm text-gray-700">
 //         {categoriesData.map((category) => (
 //           <li
 //             key={category.name}
 //             className="relative"
 //             onMouseEnter={() => setActiveCategory(category)}
 //           >
-//             <div className="flex items-center justify-between cursor-pointer group p-2 rounded-md hover:bg-gray-50 transition-colors">
+//             <div className="flex items-center justify-between cursor-pointer group py-1 px-2 rounded-md hover:bg-gray-50 transition-colors">
 //               <div className="flex items-center space-x-2">
 //                 <category.icon className="h-5 w-5 text-gray-500 group-hover:text-orange-500" />
-//                 <span className="group-hover:text-orange-500">{category.name}</span>
+//                 <span className="group-hover:text-orange-500">
+//                   {category.name}
+//                 </span>
 //               </div>
 //               {Object.keys(category.megaMenu).length > 0 && (
 //                 <ChevronRightIcon className="h-4 w-4 text-gray-400 group-hover:text-orange-500" />
@@ -156,7 +158,7 @@ const Sidebar = ({ heroBannerRef }) => {
   }, [heroBannerRef]);
 
   return (
-    <aside className="relative w-1/6 h-[400px] p-4 bg-white rounded-md shadow-sm z-30 ml-10">
+    <aside className="relative w-full md:w-1/6 h-fit md:h-[400px] p-4 bg-white rounded-md shadow-sm z-30 md:ml-10">
       <ul className="text-sm text-gray-700">
         {categoriesData.map((category) => (
           <li
@@ -184,11 +186,11 @@ const Sidebar = ({ heroBannerRef }) => {
         activeCategory.megaMenu &&
         Object.keys(activeCategory.megaMenu).length > 0 && (
           <div
-            className="fixed bg-white rounded-md shadow-lg border border-gray-200 z-50 overflow-hidden"
+            className="absolute md:fixed bg-white rounded-md shadow-lg border border-gray-200 z-50 overflow-hidden"
             style={{
-              top: `${popupPos.top}px`,
-              left: `${popupPos.left}px`,
-              width: `${popupPos.width}px`,
+              top: window.innerWidth < 768 ? "100%" : `${popupPos.top}px`,
+              left: window.innerWidth < 768 ? "0" : `${popupPos.left}px`,
+              width: window.innerWidth < 768 ? "100%" : `${popupPos.width}px`,
               height: `400px`, // Hardcoded height
             }}
             onMouseEnter={() => setActiveCategory(activeCategory)}
