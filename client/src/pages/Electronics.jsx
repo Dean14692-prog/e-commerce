@@ -7,7 +7,6 @@ const Electronics = () => {
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [priceRange, setPriceRange] = useState([0, 2000]);
   const [showFilters, setShowFilters] = useState(false);
-  // State to control the full-page cart view
   const [showCartPage, setShowCartPage] = useState(false);
 
   const products = [
