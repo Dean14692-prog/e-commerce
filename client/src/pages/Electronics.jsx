@@ -227,7 +227,6 @@ const Electronics = () => {
             />
           </svg>
         </button>
-        {/* The block containing the Eye icon on hover has been removed from here */}
       </div>
 
       <div className="p-4 flex flex-col flex-grow">
@@ -276,7 +275,7 @@ const Electronics = () => {
         <button
           onClick={() => addToCart(product)}
           disabled={!product.inStock}
-          className={`w-full py-2.5 rounded-xl font-semibold transition-all duration-200 ${
+          className={`w-full py-2.5 rounded-lg font-semibold transition-all duration-200 ${
             product.inStock
               ? "bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white transform hover:scale-105 shadow-lg hover:shadow-orange-500/25"
               : "bg-gray-600 text-gray-400 cursor-not-allowed"
@@ -291,14 +290,14 @@ const Electronics = () => {
   const ListProductCard = ({ product }) => (
     <div className="bg-gray-800 border border-gray-700 rounded-lg shadow-lg hover:shadow-xl hover:border-orange-500/50 transition-all duration-300 overflow-hidden">
       <div className="flex">
-        <div className="relative w-35 h-35">
+        <div className="relative w-35 h-35 mt-10 ml-5">
           <img
             src={product.image}
             alt={product.name}
             className="w-full h-full object-cover"
           />
           {product.discount > 0 && (
-            <div className="absolute top-4 left-4 bg-gradient-to-r from-red-500 to-pink-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
+            <div className="absolute top-4 left-4 bg-orange-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
               -{product.discount}%
             </div>
           )}
