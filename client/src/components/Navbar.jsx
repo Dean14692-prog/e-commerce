@@ -22,9 +22,6 @@ const Navbar = () => {
             <span className="text-orange-500 font-extrabold text-2xl">
               JUMIA
             </span>
-            <span className="text-sm font-semibold text-gray-700 hidden sm:inline">
-              .co.ke
-            </span>
           </Link>
           <div className="flex-1 max-w-lg mx-8 hidden lg:block">
             <div className="relative">

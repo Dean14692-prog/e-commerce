@@ -21,7 +21,7 @@ export default function Login() {
         padding: "2rem",
         borderRadius: "12px",
         boxShadow: "0px 4px 20px rgba(249, 115, 22, 0.6)",
-        alignItems: "center", 
+        alignItems: "center",
       }}
     >
       {/* Profile Icon */}
@@ -43,8 +43,18 @@ export default function Login() {
         InputLabelProps={{ style: { color: "white" } }}
       />
 
-      {/* Email Field */}
       <TextField
+        label="Email"
+        type="text"
+        variant="outlined"
+        fullWidth
+        size="small"
+        InputProps={{ style: { color: "white" } }}
+        InputLabelProps={{ style: { color: "white" } }}
+      />
+
+      {/* Email Field */}
+      {/* <TextField
         label="Email"
         type="email"
         variant="outlined"
@@ -52,7 +62,7 @@ export default function Login() {
         size="small"
         InputProps={{ style: { color: "white" } }}
         InputLabelProps={{ style: { color: "white" } }}
-      />
+      /> */}
 
       {/* Password Field */}
       <FormControl variant="outlined" fullWidth size="small">
