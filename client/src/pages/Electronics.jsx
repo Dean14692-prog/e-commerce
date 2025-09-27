@@ -194,7 +194,7 @@ const Electronics = () => {
           className="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-300"
         />
         {product.discount > 0 && (
-          <div className="absolute top-4 left-4 bg-gradient-to-r from-red-500 to-pink-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
+          <div className="absolute top-4 left-4 bg-orange-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
             -{product.discount}%
           </div>
         )}
@@ -227,29 +227,7 @@ const Electronics = () => {
             />
           </svg>
         </button>
-        <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
-          <button className="p-2 bg-gray-800/80 backdrop-blur-sm rounded-full shadow-lg hover:scale-110 transition-transform">
-            <svg
-              className="w-5 h-5 text-gray-300"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-              />
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-              />
-            </svg>
-          </button>
-        </div>
+        {/* The block containing the Eye icon on hover has been removed from here */}
       </div>
 
       <div className="p-4 flex flex-col flex-grow">
@@ -313,7 +291,7 @@ const Electronics = () => {
   const ListProductCard = ({ product }) => (
     <div className="bg-gray-800 border border-gray-700 rounded-lg shadow-lg hover:shadow-xl hover:border-orange-500/50 transition-all duration-300 overflow-hidden">
       <div className="flex">
-        <div className="relative w-48 h-48">
+        <div className="relative w-35 h-35">
           <img
             src={product.image}
             alt={product.name}
@@ -477,7 +455,7 @@ const Electronics = () => {
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Sidebar Filters */}
           <div className="lg:w-64">
-            <div className="bg-gray-800 border border-gray-700 rounded-2xl shadow-lg p-6 sticky top-24">
+            <div className="bg-gray-800 border border-gray-700 rounded-lg shadow-lg p-1 sticky top-24">
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-lg font-semibold text-white">Filters</h2>
                 <button
@@ -749,6 +727,4 @@ const Electronics = () => {
 };
 
 export default Electronics;
-
-
 
