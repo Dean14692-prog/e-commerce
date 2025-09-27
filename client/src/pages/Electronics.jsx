@@ -291,13 +291,13 @@ const Electronics = () => {
   );
 
   const ListProductCard = ({ product }) => (
-    <div className="bg-gray-800 border border-gray-700 rounded-lg shadow-lg hover:shadow-xl hover:border-orange-500/50 transition-all duration-300 overflow-hidden">
+    <div className="bg-gray-800 mb-2 border border-gray-700 rounded-lg shadow-lg hover:shadow-xl hover:border-orange-500/50 transition-all duration-300 overflow-hidden">
       <div className="flex">
         <div className="relative w-35 h-35 mt-10 ml-5">
           <img
             src={product.image}
             alt={product.name}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover rounded-lg"
           />
           {product.discount > 0 && (
             <div className="absolute top-4 left-4 bg-orange-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
@@ -390,9 +390,7 @@ const Electronics = () => {
       </div>
     </div>
   );
-  // --- End of ProductCard and ListProductCard Components ---
 
-  // --- Start of Main Component Logic ---
   if (showCartPage) {
     return (
       <div className="min-h-screen bg-[#1a2037] p-8">
@@ -429,7 +427,7 @@ const Electronics = () => {
             {/* Left Column: Cart Items */}
             <div className="flex-grow space-y-4">
               {cart.length === 0 ? (
-                <div className="bg-gray-800 p-8 rounded-2xl text-center">
+                <div className="bg-gray-800 p-8 rounded-lg text-center">
                   <h3 className="text-xl font-semibold text-gray-400">
                     Your cart is empty.
                   </h3>
@@ -443,7 +441,7 @@ const Electronics = () => {
                     <img
                       src={item.image}
                       alt={item.name}
-                      className="w-24 h-24 object-cover rounded-xl flex-shrink-0"
+                      className="w-24 h-24 object-cover rounded-lg flex-shrink-0"
                     />
 
                     <div className="flex-grow ml-4">
