@@ -515,7 +515,6 @@ const Electronics = () => {
                           }
                           className="p-2 hover:bg-gray-600 rounded-r-lg text-gray-300"
                         >
-                          {/* Plus Icon SVG */}
                           <svg
                             className="w-4 h-4"
                             fill="none"
@@ -537,7 +536,6 @@ const Electronics = () => {
               )}
             </div>
 
-            {/* Right Column: Cart Summary */}
             <div className="lg:w-80 flex-shrink-0">
               <div className="bg-gray-800 border border-gray-700 rounded-lg shadow-xl p-6 sticky top-24">
                 <h3 className="font-bold text-lg text-white mb-4 border-b border-gray-700 pb-3">
@@ -562,11 +560,9 @@ const Electronics = () => {
     );
   }
 
-  // --- End of Main Component Logic ---
 
   return (
     <div className="min-h-screen bg-[#1a2037]">
-      {/* Header */}
       <header className="bg-[#1a2037] border-b border-gray-700 shadow-lg sticky top-0 z-50">
         <div className="max-w-full mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
@@ -578,7 +574,6 @@ const Electronics = () => {
 
             <div className="flex-1 max-w-md mx-8">
               <div className="relative">
-                {/* Search Icon SVG */}
                 <svg
                   className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5"
                   fill="none"
@@ -604,10 +599,10 @@ const Electronics = () => {
 
             <div className="flex items-center space-x-4">
               <button
-                onClick={() => setShowCartPage(true)} // Toggles the full cart view
+                onClick={() => setShowCartPage(true)} 
                 className="relative p-2 text-gray-300 hover:text-orange-400 transition-colors"
               >
-                {/* Shopping Cart Icon SVG */}
+                
                 <svg
                   className="w-6 h-6"
                   fill="none"
@@ -729,7 +724,7 @@ const Electronics = () => {
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center space-x-4">
                 <span className="text-gray-300">
-                  {filteredProducts.length} products found
+                  Browse our products 
                 </span>
               </div>
 
