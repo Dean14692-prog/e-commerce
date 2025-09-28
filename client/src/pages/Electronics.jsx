@@ -186,7 +186,6 @@ const Electronics = () => {
   );
   const cartItemsCount = cart.reduce((total, item) => total + item.quantity, 0);
 
-  // --- ProductCard and ListProductCard Components ---
   const ProductCard = ({ product }) => (
     <div className="bg-gray-800 border border-gray-700 rounded-lg shadow-lg hover:shadow-2xl hover:border-orange-500/50 transition-all duration-300 group overflow-hidden flex flex-col">
       <div className="relative overflow-hidden">
