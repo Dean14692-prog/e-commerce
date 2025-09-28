@@ -1,4 +1,73 @@
+
 import React, { useState } from "react";
+
+const Link = ({ to, children, ...props }) => (
+  <a href={to} {...props}>
+    {children}
+  </a>
+);
+const UserCircleIcon = (props) => (
+  <svg {...props} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 3a9 9 0 11-18 0 9 9 0 0118 0z"
+    />
+  </svg>
+);
+const UserIcon = (props) => (
+  <svg {...props} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+    />
+  </svg>
+);
+const CubeIcon = (props) => (
+  <svg {...props} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10m0-10l-8 4v10"
+    />
+  </svg>
+);
+const HeartIcon = (props) => (
+  <svg {...props} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+    />
+  </svg>
+);
+const QuestionMarkCircleIcon = (props) => (
+  <svg {...props} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M8.228 9.247a3.75 3.75 0 100 7.5l.413-.207M12 21h4.5M12 3v18"
+    />
+  </svg>
+);
+const ShoppingCartIcon = (props) => (
+  <svg {...props} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.5 5m2.5-5h-2m2.5 5h2m-2.5 0l2.5-5m2.5 5h2M17 17a2 2 0 102 2 2 2 0 00-2-2zM9 17a2 2 0 102 2 2 2 0 00-2-2z"
+    />
+  </svg>
+);
+
+// --- MAIN COMPONENT ---
 const Electronics = () => {
   const [cart, setCart] = useState([]);
   const [favorites, setFavorites] = useState([]);
@@ -8,6 +77,9 @@ const Electronics = () => {
   const [priceRange, setPriceRange] = useState([0, 2000]);
   const [showFilters, setShowFilters] = useState(false);
   const [showCartPage, setShowCartPage] = useState(false);
+  const [showWishlistPage, setShowWishlistPage] = useState(false);
+  // NEW STATE: For the Account Dropdown
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const products = [
     {
@@ -390,6 +462,67 @@ const Electronics = () => {
     </div>
   );
 
+  // Filter products for the wishlist
+  const wishlistProducts = products.filter((product) =>
+    favorites.includes(product.id)
+  );
+
+  // RENDER WISHLIST PAGE
+  if (showWishlistPage) {
+    return (
+      <div className="min-h-screen bg-[#1a2037] p-8">
+        <div className="max-w-7xl mx-auto">
+          <button
+            onClick={() => setShowWishlistPage(false)}
+            className="flex items-center text-gray-400 hover:text-orange-500 transition-colors mb-6"
+          >
+            {/* Back Arrow SVG */}
+            <svg
+              className="w-5 h-5 mr-2"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M10 19l-7-7m0 0l7-7m-7 7h18"
+              />
+            </svg>
+            <span className="font-semibold">Back to Shopping</span>
+          </button>
+
+          <div className="flex justify-between items-end mb-8 border-b border-gray-700 pb-4">
+            <h2 className="text-3xl font-bold text-white">
+              My Wishlist ({wishlistProducts.length}
+              {wishlistProducts.length === 1 ? "item" : "items"})
+            </h2>
+          </div>
+
+          {wishlistProducts.length === 0 ? (
+            <div className="bg-gray-800 p-8 rounded-lg text-center">
+              <h3 className="text-xl font-semibold text-gray-400">
+                Your wishlist is empty. 💔
+              </h3>
+              <p className="text-gray-400 mt-2">
+                Click the heart icon on any product to add it here.
+              </p>
+            </div>
+          ) : (
+            <div className="space-y-6">
+              {/* Using the ListProductCard for a clean wishlist view */}
+              {wishlistProducts.map((product) => (
+                <ListProductCard key={product.id} product={product} />
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  // RENDER CART PAGE
   if (showCartPage) {
     return (
       <div className="min-h-screen bg-[#1a2037] p-8">
@@ -559,7 +692,7 @@ const Electronics = () => {
     );
   }
 
-
+  // RENDER MAIN PAGE
   return (
     <div className="min-h-screen bg-[#1a2037]">
       <header className="bg-[#1a2037] border-b border-gray-700 shadow-lg sticky top-0 z-50">
@@ -596,32 +729,110 @@ const Electronics = () => {
               </div>
             </div>
 
-            <div className="flex items-center space-x-4">
-              <button
-                onClick={() => setShowCartPage(true)} 
-                className="relative p-2 text-gray-300 hover:text-orange-400 transition-colors"
+            {/* START OF NEW NAVBAR ICONS SECTION */}
+            <div className="flex items-center space-x-6">
+              {/* Account Dropdown Section */}
+              <div
+                className="relative"
+                onMouseEnter={() => setIsDropdownOpen(true)}
+                onMouseLeave={() => setIsDropdownOpen(false)}
               >
-                
-                <svg
-                  className="w-6 h-6"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 5M7 13l2.5 5M17 17a2 2 0 102 2 2 2 0 00-2-2zm-8 0a2 2 0 102 2 2 2 0 00-2-2z"
-                  />
-                </svg>
-                {cartItemsCount > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-orange-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                    {cartItemsCount}
-                  </span>
+                <button className="flex items-center space-x-1 text-white hover:text-orange-400 transition-colors focus:outline-none">
+                  <UserCircleIcon className="h-6 w-6" />
+                  <span className="hidden md:inline">Account</span>
+                </button>
+
+                {isDropdownOpen && (
+                  <div
+                    className="absolute right-0 top-full w-48 border border-gray-600 rounded-md shadow-xl py-1"
+                    style={{ backgroundColor: "#2A2F47", zIndex: 60 }} // Added z-index to ensure it is above the sticky header
+                  >
+                    {/* Sign Up Link Styled as a Button */}
+                    <div className="p-2">
+                      <Link
+                        to="/signup"
+                        className="block text-center w-full bg-orange-500 text-white font-bold py-2 px-4 rounded-md hover:bg-orange-600 transition-colors"
+                      >
+                        Sign Up
+                      </Link>
+                    </div>
+
+                    {/* Dropdown Links with Icons */}
+                    <Link
+                      to="/login"
+                      className="group flex items-center space-x-2 px-4 py-2 text-white hover:text-orange-400 transition-colors rounded-md"
+                      // Inline styles are often used in React for dynamic styling but for Tailwind this is non-standard.
+                      // Leaving them as they were provided for minimal change but note that the hover styles in the original snippet were flawed React inline syntax.
+                      onMouseEnter={(e) =>
+                        (e.currentTarget.style.backgroundColor = "#3A4058")
+                      }
+                      onMouseLeave={(e) =>
+                        (e.currentTarget.style.backgroundColor = "transparent")
+                      }
+                    >
+                      <UserIcon className="h-5 w-5 text-gray-300 group-hover:text-orange-400 transition-colors" />
+                      <span className="group-hover:text-orange-400 transition-colors">
+                        My Account
+                      </span>
+                    </Link>
+
+                    <Link
+                      to="/orders"
+                      className="group flex items-center space-x-2 px-4 py-2 text-white hover:text-orange-400 transition-colors rounded-md"
+                      onMouseEnter={(e) =>
+                        (e.currentTarget.style.backgroundColor = "#3A4058")
+                      }
+                      onMouseLeave={(e) =>
+                        (e.currentTarget.style.backgroundColor = "transparent")
+                      }
+                    >
+                      <CubeIcon className="h-5 w-5 text-gray-300 group-hover:text-orange-400 transition-colors" />
+                      <span className="group-hover:text-orange-400 transition-colors">
+                        Orders
+                      </span>
+                    </Link>
+
+                    <button // Changed from Link to button for custom logic
+                      onClick={() => {
+                        setIsDropdownOpen(false); // Close dropdown
+                        setShowWishlistPage(true); // Navigate to Wishlist
+                      }}
+                      className="group flex items-center space-x-2 w-full text-left px-4 py-2 text-white hover:text-orange-400 transition-colors rounded-md"
+                      onMouseEnter={(e) =>
+                        (e.currentTarget.style.backgroundColor = "#3A4058")
+                      }
+                      onMouseLeave={(e) =>
+                        (e.currentTarget.style.backgroundColor = "transparent")
+                      }
+                    >
+                      <HeartIcon className="h-5 w-5 text-gray-300 group-hover:text-orange-400 transition-colors" />
+                      <span className="group-hover:text-orange-400 transition-colors">
+                        Wishlist ({wishlistProducts.length})
+                      </span>
+                    </button>
+                  </div>
                 )}
+              </div>
+
+
+
+              {/* Cart Link/Button Logic */}
+              <button
+                onClick={() => setShowCartPage(true)}
+                className="flex items-center space-x-1 text-white hover:text-orange-400 transition-colors"
+              >
+                <div className="relative">
+                  <ShoppingCartIcon className="h-6 w-6" />
+                  {cartItemsCount > 0 && (
+                    <span className="absolute -top-2 -right-2 bg-orange-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                      {cartItemsCount}
+                    </span>
+                  )}
+                </div>
+                <span className="hidden md:inline">Cart</span>
               </button>
             </div>
+            {/* END OF NEW NAVBAR ICONS SECTION */}
           </div>
         </div>
       </header>
@@ -722,9 +933,7 @@ const Electronics = () => {
             {/* Controls */}
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center space-x-4">
-                <span className="text-gray-300">
-                  Browse our products 
-                </span>
+                <span className="text-gray-300">Browse our products</span>
               </div>
 
               <div className="flex items-center space-x-4">
