@@ -1,626 +1,16 @@
-// import React, { useState } from "react";
-// import { Link } from "react-router-dom";
-// import { useElectronics } from "./ElectronicsContext";
-
-// const CheckoutSummaryPage = () => {
-//   // Destructure values from context
-//   const { cart, cartTotal, deliveryFees, orderTotal, UserCircleIcon } =
-//     useElectronics();
-
-//   // 1. STATE FOR SINGLE-ITEM SLIDER
-//   const [startDisplayIndex, setStartDisplayIndex] = useState(0);
-
-//   // Constants and Calculations for the slider
-//   const totalShippingItems = cart.length;
-//   // Determine the max index, ensuring it's never negative
-//   const maxStartIndex = Math.max(0, totalShippingItems - 1);
-//   // Safety clamp the index to ensure it's within [0, maxStartIndex]
-//   const safeStartIndex = Math.min(
-//     Math.max(startDisplayIndex, 0),
-//     maxStartIndex
-//   );
-//   const itemToDisplay = cart[safeStartIndex];
-
-//   // Slider Navigation Logic
-//   const nextItem = () => {
-//     setStartDisplayIndex((prevIndex) => Math.min(prevIndex + 1, maxStartIndex));
-//   };
-
-//   const prevItem = () => {
-//     setStartDisplayIndex((prevIndex) => Math.max(prevIndex - 1, 0));
-//   };
-
-//   const canGoPrev = safeStartIndex > 0;
-//   const canGoNext = safeStartIndex < maxStartIndex;
-
-//   // Assuming a static tax rate for display purposes
-//   const estimatedTaxes = cartTotal * 0.05; // 5% mock tax
-
-//   // Calculate the final total using the mock tax
-//   const finalOrderTotal = cartTotal + deliveryFees + estimatedTaxes;
-
-//   // Mock UserCircleIcon if it's potentially missing from useElectronics to prevent errors
-//   const FinalUserCircleIcon =
-//     UserCircleIcon ||
-//     (() => (
-//       <svg
-//         className="w-8 h-8 text-orange-500 flex-shrink-0"
-//         fill="none"
-//         viewBox="0 0 24 24"
-//         stroke="currentColor"
-//       >
-//         <path
-//           strokeLinecap="round"
-//           strokeLinejoin="round"
-//           strokeWidth={2}
-//           d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 3a9 9 0 11-18 0 9 9 0 0118 0z"
-//         />
-//       </svg>
-//     ));
-
-//   return (
-//     <div className="min-h-screen bg-[#1a2037] p-8">
-//       <div className="max-w-6xl mx-auto">
-//         <Link
-//           to="/cart"
-//           className="flex items-center text-gray-400 hover:text-orange-500 transition-colors mb-8"
-//         >
-//           <svg
-//             className="w-5 h-5 mr-2"
-//             fill="none"
-//             stroke="currentColor"
-//             viewBox="0 0 24 24"
-//           >
-//             <path
-//               strokeLinecap="round"
-//               strokeLinejoin="round"
-//               strokeWidth={2}
-//               d="M10 19l-7-7m0 0l7-7m-7 7h18"
-//             />
-//           </svg>
-//           <span className="font-semibold">Back to Cart</span>
-//         </Link>
-
-//         <h2 className="text-4xl font-extrabold text-white mb-8 border-b border-gray-700 pb-4">
-//           Order Summary & Checkout
-//         </h2>
-
-//         <div className="flex flex-col lg:flex-row gap-8">
-//           {/* Left Column: Customer Address, Delivery Details, Payment Method */}
-//           <div className="flex-grow space-y-6 lg:w-2/3">
-//             {/* 1. CUSTOMER ADDRESS */}
-//             <div className="bg-gray-800 border border-gray-700 rounded-lg shadow-xl p-6">
-//               <h3 className="text-xl font-semibold text-white mb-4 flex justify-between items-center border-b border-gray-700 pb-3">
-//                 <div className="flex items-center">
-//                   <span className="text-orange-500 mr-2">1.</span> CUSTOMER
-//                   ADDRESS
-//                 </div>
-//                 <Link to ="/Customer-details-editing">
-//                   <button className="text-orange-500 text-sm font-semibold hover:text-orange-400 transition-colors">
-//                     Change
-//                   </button>
-//                 </Link>
-//               </h3>
-//               <div className="flex items-start space-x-4 text-gray-300">
-//                 <FinalUserCircleIcon className="w-8 h-8 text-orange-500 flex-shrink-0" />
-//                 <div>
-//                   <p className="font-medium text-white">John Doe</p>
-//                   <p className="text-sm">123 React Lane, Code City, CA 90210</p>
-//                   <p className="text-sm">johndoe@example.com</p>
-//                   <p className="text-sm">Phone: (555) 123-4567</p>
-//                 </div>
-//               </div>
-//             </div>
-
-//             {/* 2. DELIVERY DETAILS (Now contains the item slider) */}
-//             <div className="bg-gray-800 border border-gray-700 rounded-lg shadow-xl p-6">
-//               <h3 className="text-xl font-semibold text-white mb-4 flex justify-between items-center border-b border-gray-700 pb-3">
-//                 <div className="flex items-center">
-//                   <span className="text-orange-500 mr-2">2.</span> DELIVERY
-//                   DETAILS
-//                 </div>
-//                 <button className="text-orange-500 text-sm font-semibold hover:text-orange-400 transition-colors">
-//                   Change
-//                 </button>
-//               </h3>
-
-//               {/* Mock Delivery Location */}
-//               <div className="border-b border-gray-700 pb-4 mb-4">
-//                 <p className="text-gray-300 font-medium flex justify-between items-center">
-//                   Pick-up Station
-//                   <span className="text-sm text-gray-400">
-//                     Delivered within 3-5 business days
-//                   </span>
-//                 </p>
-//                 <div className="ml-4 mt-2 p-3 bg-gray-700/50 rounded-lg border border-gray-600">
-//                   <p className="text-white font-semibold">
-//                     Tech Hub Central Station
-//                   </p>
-//                   <p className="text-gray-400 text-sm">
-//                     456 Component Street, Silicon Valley, CA 90210
-//                   </p>
-//                 </div>
-//               </div>
-
-//               {/* Items Slider Implementation */}
-//               <h4 className="font-medium text-white mb-3">
-//                 Items ({totalShippingItems})
-//               </h4>
-
-//               {totalShippingItems > 0 ? (
-//                 // Wrapper for 3/4 width and left alignment
-//                 <div className="w-full md:w-3/4">
-//                   <div className="relative group px-4 py-6 border border-gray-700 rounded-lg">
-//                     {/* Single Item Card Content */}
-//                     <div className="flex items-center justify-between">
-//                       <div className="flex items-center space-x-3">
-//                         <img
-//                           src={itemToDisplay.image}
-//                           alt={itemToDisplay.name}
-//                           className="w-16 h-16 object-cover rounded-md"
-//                         />
-//                         <div className="max-w-xs">
-//                           <p className="text-white font-medium line-clamp-1">
-//                             {itemToDisplay.name}
-//                           </p>
-//                           <p className="text-gray-400 text-sm">
-//                             Qty: {itemToDisplay.quantity}
-//                           </p>
-//                         </div>
-//                       </div>
-//                       <span className="text-white font-semibold flex-shrink-0">
-//                         $
-//                         {(itemToDisplay.price * itemToDisplay.quantity).toFixed(
-//                           2
-//                         )}
-//                       </span>
-//                     </div>
-
-//                     {/* NAVIGATION BUTTONS (Hidden until hover) */}
-//                     {totalShippingItems > 1 && (
-//                       <>
-//                         {/* Previous Button */}
-//                         <button
-//                           onClick={prevItem}
-//                           disabled={!canGoPrev}
-//                           className={`absolute -left-3 top-1/2 transform -translate-y-1/2 p-2 bg-gray-800/80 border border-gray-700 rounded-full transition-opacity duration-300 z-10 ${
-//                             canGoPrev
-//                               ? "opacity-0 group-hover:opacity-100 hover:bg-gray-600"
-//                               : "opacity-0 cursor-not-allowed"
-//                           }`}
-//                           aria-label="Previous item"
-//                         >
-//                           <svg
-//                             className="w-5 h-5 text-white"
-//                             fill="none"
-//                             stroke="currentColor"
-//                             viewBox="0 0 24 24"
-//                           >
-//                             <path
-//                               strokeLinecap="round"
-//                               strokeLinejoin="round"
-//                               strokeWidth={2}
-//                               d="M15 19l-7-7 7-7"
-//                             />
-//                           </svg>
-//                         </button>
-
-//                         {/* Next Button */}
-//                         <button
-//                           onClick={nextItem}
-//                           disabled={!canGoNext}
-//                           className={`absolute -right-3 top-1/2 transform -translate-y-1/2 p-2 bg-gray-800/80 border border-gray-700 rounded-full transition-opacity duration-300 z-10 ${
-//                             canGoNext
-//                               ? "opacity-0 group-hover:opacity-100 hover:bg-gray-600"
-//                               : "opacity-0 cursor-not-allowed"
-//                           }`}
-//                           aria-label="Next item"
-//                         >
-//                           <svg
-//                             className="w-5 h-5 text-white"
-//                             fill="none"
-//                             stroke="currentColor"
-//                             viewBox="0 0 24 24"
-//                           >
-//                             <path
-//                               strokeLinecap="round"
-//                               strokeLinejoin="round"
-//                               strokeWidth={2}
-//                               d="M9 5l7 7-7 7"
-//                             />
-//                           </svg>
-//                         </button>
-//                       </>
-//                     )}
-
-//                     {/* Item Index Indicator */}
-//                     <div className="text-center text-gray-400 text-sm mt-3">
-//                       Item{" "}
-//                       <span className="font-semibold text-white">
-//                         {safeStartIndex + 1}
-//                       </span>{" "}
-//                       of {totalShippingItems}
-//                     </div>
-//                   </div>
-//                 </div>
-//               ) : (
-//                 <div className="text-gray-400 p-4 border border-gray-700 rounded-lg">
-//                   Your cart is empty.
-//                 </div>
-//               )}
-
-//               {/* MODIFY CART LINK */}
-//               <Link
-//                 to="/cart" // Navigates to the /cart route
-//                 className="text-orange-500 text-sm font-semibold hover:text-orange-400 transition-colors mt-4 block"
-//               >
-//                 Modify cart
-//               </Link>
-//             </div>
-
-//             {/* 3. PAYMENT METHOD */}
-//             <div className="bg-gray-800 border border-gray-700 rounded-lg shadow-xl p-6">
-//               <h3 className="text-xl font-semibold text-white mb-4 flex justify-between items-center border-b border-gray-700 pb-3">
-//                 <div className="flex items-center">
-//                   <span className="text-orange-500 mr-2">3.</span> PAYMENT
-//                   METHOD
-//                 </div>
-//                 <button className="mt-0 text-orange-500 hover:text-orange-400 text-sm font-semibold">
-//                   Change Payment
-//                 </button>
-//               </h3>
-//               <div className="flex items-center space-x-4 text-gray-300">
-//                 <div className="text-3xl">💳</div>
-//                 <div>
-//                   <p className="font-medium text-white">Visa ending in 4242</p>
-//                   <p className="text-sm">Expires 08/2026</p>
-//                 </div>
-//               </div>
-//             </div>
-//           </div>
-
-//           {/* Right Column: 4. ORDER SUMMARY (Fixed width lg:w-80) */}
-//           <div className="lg:w-80 flex-shrink-0 lg:order-2">
-//             <div className="bg-gray-800 border border-gray-700 rounded-lg shadow-2xl p-6 sticky top-24">
-//               <h3 className="font-bold text-2xl text-white mb-4 border-b border-gray-700 pb-3 text-left">
-//                 Order Summary
-//               </h3>
-
-//               <div className="space-y-3 mb-6">
-//                 <div className="flex justify-between text-gray-300">
-//                   <span>Items Subtotal:</span>
-//                   <span className="font-medium">${cartTotal.toFixed(2)}</span>
-//                 </div>
-//                 <div className="flex justify-between text-gray-300">
-//                   <span>Shipping & Handling:</span>
-//                   <span className="font-medium">
-//                     ${deliveryFees.toFixed(2)}
-//                   </span>
-//                 </div>
-//                 <div className="flex justify-between text-gray-300">
-//                   <span>Taxes (Estimated):</span>
-//                   <span className="font-medium">
-//                     ${estimatedTaxes.toFixed(2)}
-//                   </span>
-//                 </div>
-//               </div>
-
-//               <div className="flex justify-between items-center pt-4 border-t border-gray-700">
-//                 <span className="text-xl font-bold text-white">
-//                   Order Total:
-//                 </span>
-//                 <span className="text-3xl font-extrabold text-orange-500">
-//                   ${finalOrderTotal.toFixed(2)}
-//                 </span>
-//               </div>
-
-//               <button
-//                 // Removed alert and set to a no-op function
-//                 onClick={() => {}}
-//                 disabled={cart.length === 0}
-//                 className={`w-full py-4 mt-6 rounded-xl font-extrabold text-lg transition-all duration-200 shadow-xl ${
-//                   cart.length > 0
-//                     ? "bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white hover:shadow-green-500/25 transform hover:scale-[1.02]"
-//                     : "bg-gray-600 text-gray-400 cursor-not-allowed"
-//                 }`}
-//               >
-//                 Place Your Order
-//               </button>
-
-//               <p className="text-xs text-gray-400 mt-3 text-center">
-//                 By placing your order, you agree to our terms and conditions.
-//               </p>
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default CheckoutSummaryPage;
-
-
-
-// import React, { useState } from "react";
-// import { Link } from "react-router-dom";
-// import { useElectronics } from "./ElectronicsContext";
-
-// const CheckoutSummaryPage = () => {
-//   // Destructure values from context, including the customer address
-//   const {
-//     cart,
-//     cartTotal,
-//     deliveryFees,
-//     orderTotal,
-//     UserCircleIcon,
-//     userAddress, // 🟢 Fetches the latest address from state
-//   } = useElectronics();
-
-//   // --- START: Original Logic from the CheckoutSummaryPage.jsx file ---
-
-//   // 1. STATE FOR SINGLE-ITEM SLIDER
-//   const [startDisplayIndex, setStartDisplayIndex] = useState(0);
-
-//   // Constants and Calculations for the slider
-//   const totalShippingItems = cart.length;
-//   // Determine the max index, ensuring it's never negative
-//   const maxStartIndex = Math.max(0, totalShippingItems - 1);
-//   // Safety clamp the index to ensure it's within [0, maxStartIndex]
-//   const safeStartIndex = Math.min(
-//     Math.max(startDisplayIndex, 0),
-//     maxStartIndex
-//   );
-//   const itemToDisplay = cart[safeStartIndex];
-
-//   // Slider Navigation Logic
-//   const nextItem = () => {
-//     setStartDisplayIndex((prevIndex) => Math.min(prevIndex + 1, maxStartIndex));
-//   };
-
-//   const prevItem = () => {
-//     setStartDisplayIndex((prevIndex) => Math.max(prevIndex - 1, 0));
-//   };
-
-//   const canGoPrev = safeStartIndex > 0;
-//   const canGoNext = safeStartIndex < maxStartIndex;
-
-//   // Assuming a static tax rate for display purposes
-//   const estimatedTaxes = cartTotal * 0.05; // 5% mock tax
-
-//   // Calculate the final total using the mock tax
-//   const finalOrderTotal = cartTotal + deliveryFees + estimatedTaxes;
-
-//   // --- END: Original Logic from the CheckoutSummaryPage.jsx file ---
-
-//   return (
-//     <div className="min-h-screen bg-[#1a2037] p-8">
-//       <div className="max-w-6xl mx-auto">
-//         <div className="flex items-center justify-between mb-8">
-//           <h1 className="text-3xl font-bold text-white flex items-center">
-//             <span className="text-orange-500 mr-2">JUMIA</span>
-//             <span className="text-white">|</span>
-//             <span className="ml-2">Place your order</span>
-//           </h1>
-//         </div>
-
-//         <div className="flex gap-8">
-//           {/* Left Column: Details */}
-//           <div className="flex-grow space-y-6">
-//             {/* Customer Address Card (The update target) */}
-//             <div className="bg-gray-800 border border-gray-700 rounded-lg p-6">
-//               <h3 className="font-bold text-xl text-white mb-4 flex justify-between items-center">
-//                 1. CUSTOMER ADDRESS
-//                 <Link
-//                   to="/Customer-details-editing" // Link to the edit page
-//                   className="text-orange-500 text-sm font-semibold hover:text-orange-400 transition-colors"
-//                 >
-//                   Change
-//                 </Link>
-//               </h3>
-//               {/* 🟢 Displays the dynamically updated full name */}
-//               <p className="text-gray-300">{userAddress.fullName}</p>
-//               {/* 🟢 Displays the dynamically updated address summary string */}
-//               <p className="text-gray-400 text-sm mt-1">
-//                 {userAddress.addressSummary}
-//               </p>
-//             </div>
-
-//             {/* Delivery Details */}
-//             <div className="bg-gray-800 border border-gray-700 rounded-lg p-6">
-//               <h3 className="font-bold text-xl text-white mb-4">
-//                 2. DELIVERY DETAILS
-//               </h3>
-
-//               {/* Shipping Items Slider */}
-//               <div className="relative border border-gray-700 rounded-lg p-4 bg-gray-900 mb-6">
-//                 <h4 className="text-lg font-semibold text-white mb-3">
-//                   Shipping {totalShippingItems} Item
-//                   {totalShippingItems !== 1 ? "s" : ""}
-//                 </h4>
-
-//                 {totalShippingItems > 0 && (
-//                   <>
-//                     <div className="flex items-center space-x-4">
-//                       {/* Item Image */}
-//                       <img
-//                         src={itemToDisplay.image}
-//                         alt={itemToDisplay.name}
-//                         className="w-16 h-16 object-cover rounded"
-//                       />
-//                       {/* Item Details */}
-//                       <div className="flex-grow">
-//                         <p className="text-gray-200 font-medium">
-//                           {itemToDisplay.name}
-//                         </p>
-//                         <p className="text-gray-400 text-sm">
-//                           Quantity: {itemToDisplay.quantity}
-//                         </p>
-//                       </div>
-//                       <span className="text-lg font-bold text-white">
-//                         $
-//                         {(itemToDisplay.price * itemToDisplay.quantity).toFixed(
-//                           2
-//                         )}
-//                       </span>
-//                     </div>
-
-//                     {/* Navigation Buttons */}
-//                     {totalShippingItems > 1 && (
-//                       <div className="absolute top-1/2 -translate-y-1/2 flex justify-between w-full px-2">
-//                         <button
-//                           onClick={prevItem}
-//                           disabled={!canGoPrev}
-//                           className={`p-2 rounded-full bg-gray-700 transition-opacity ${
-//                             canGoPrev
-//                               ? "opacity-100 hover:bg-gray-600"
-//                               : "opacity-30 cursor-not-allowed"
-//                           }`}
-//                         >
-//                           <svg
-//                             className="w-5 h-5 text-white"
-//                             fill="none"
-//                             viewBox="0 0 24 24"
-//                             stroke="currentColor"
-//                           >
-//                             <path
-//                               strokeLinecap="round"
-//                               strokeLinejoin="round"
-//                               strokeWidth={2}
-//                               d="M15 19l-7-7 7-7"
-//                             />
-//                           </svg>
-//                         </button>
-//                         <button
-//                           onClick={nextItem}
-//                           disabled={!canGoNext}
-//                           className={`p-2 rounded-full bg-gray-700 transition-opacity ${
-//                             canGoNext
-//                               ? "opacity-100 hover:bg-gray-600"
-//                               : "opacity-30 cursor-not-allowed"
-//                           }`}
-//                         >
-//                           <svg
-//                             className="w-5 h-5 text-white"
-//                             fill="none"
-//                             viewBox="0 0 24 24"
-//                             stroke="currentColor"
-//                           >
-//                             <path
-//                               strokeLinecap="round"
-//                               strokeLinejoin="round"
-//                               strokeWidth={2}
-//                               d="M9 5l7 7-7 7"
-//                             />
-//                           </svg>
-//                         </button>
-//                       </div>
-//                     )}
-//                   </>
-//                 )}
-//                 {totalShippingItems === 0 && (
-//                   <p className="text-gray-400 text-center">
-//                     Your cart is empty.
-//                   </p>
-//                 )}
-
-//                 <p className="text-sm text-gray-500 mt-4 text-center">
-//                   Showing item {safeStartIndex + 1} of {totalShippingItems}
-//                 </p>
-//               </div>
-//             </div>
-
-//             {/* Payment Method */}
-//             <div className="bg-gray-800 border border-gray-700 rounded-lg p-6">
-//               <h3 className="font-bold text-xl text-white mb-4">
-//                 3. PAYMENT METHOD
-//               </h3>
-//               <div className="flex items-center space-x-4">
-//                 <div className="p-3 bg-orange-500 rounded-full">
-//                   <UserCircleIcon className="w-6 h-6 text-white" />
-//                 </div>
-//                 <p className="text-gray-200 font-medium">
-//                   Pay with M-Pesa or Cash on Delivery
-//                 </p>
-//               </div>
-//             </div>
-//           </div>
-
-//           {/* Right Column: Order Summary */}
-//           <div className="lg:w-80 flex-shrink-0">
-//             <div className="bg-gray-800 border border-gray-700 rounded-lg shadow-xl p-6 sticky top-24">
-//               <h3 className="font-bold text-lg text-white mb-4 border-b border-gray-700 pb-3">
-//                 Order Summary
-//               </h3>
-
-//               <div className="space-y-3 pb-4">
-//                 <div className="flex justify-between items-center text-gray-300">
-//                   <span>Items ({cart.length})</span>
-//                   <span className="font-medium">${cartTotal.toFixed(2)}</span>
-//                 </div>
-//                 <div className="flex justify-between items-center text-gray-300">
-//                   <span>Shipping & Handling</span>
-//                   <span className="font-medium">
-//                     ${deliveryFees.toFixed(2)}
-//                   </span>
-//                 </div>
-//                 <div className="flex justify-between items-center text-gray-300">
-//                   <span>Estimated Tax</span>
-//                   <span className="font-medium">
-//                     ${estimatedTaxes.toFixed(2)}
-//                   </span>
-//                 </div>
-//               </div>
-
-//               <div className="flex justify-between items-center pt-4 border-t border-gray-700">
-//                 <span className="text-xl font-bold text-white">
-//                   Order Total:
-//                 </span>
-//                 <span className="text-3xl font-extrabold text-orange-500">
-//                   ${finalOrderTotal.toFixed(2)}
-//                 </span>
-//               </div>
-
-//               <button
-//                 // Removed alert and set to a no-op function
-//                 onClick={() => {}}
-//                 disabled={cart.length === 0}
-//                 className={`w-full py-4 mt-6 rounded-xl font-extrabold text-lg transition-all duration-200 shadow-xl ${
-//                   cart.length > 0
-//                     ? "bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white hover:shadow-green-500/25 transform hover:scale-[1.02]"
-//                     : "bg-gray-600 text-gray-400 cursor-not-allowed"
-//                 }`}
-//               >
-//                 Place Your Order
-//               </button>
-
-//               <p className="text-xs text-gray-400 mt-3 text-center">
-//                 By placing your order, you agree to our terms and conditions.
-//               </p>
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default CheckoutSummaryPage;
-
-
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useElectronics } from "./ElectronicsContext";
 
 const CheckoutSummaryPage = () => {
-  // Destructure values from context, including the customer address
+  // Destructure values from context
   const {
     cart,
     cartTotal,
     deliveryFees,
-    orderTotal,
+    // orderTotal,
     UserCircleIcon,
-    userAddress, // 🟢 Fetches the latest address from state
+    userAddress,
   } = useElectronics();
 
   // --- START: Original Logic from the CheckoutSummaryPage.jsx file ---
@@ -649,6 +39,7 @@ const CheckoutSummaryPage = () => {
   };
 
   const canGoPrev = safeStartIndex > 0;
+  // FIX: Correctly declared with 'const'
   const canGoNext = safeStartIndex < maxStartIndex;
 
   // Assuming a static tax rate for display purposes
@@ -662,18 +53,35 @@ const CheckoutSummaryPage = () => {
   return (
     <div className="min-h-screen bg-[#1a2037] p-8">
       <div className="max-w-6xl mx-auto">
-        <div className="flex items-center justify-between mb-8">
-          <h1 className="text-3xl font-bold text-white flex items-center">
-            <span className="text-orange-500 mr-2">JUMIA</span>
-            <span className="text-white">|</span>
-            <span className="ml-2">Place your order</span>
-          </h1>
+        {/* MODIFIED HEADER: Only contains the 'Modify Cart' link, aligned to the right */}
+        <div className="flex items-center justify-end mb-8">
+          <Link
+            to="/cart"
+            className="flex items-center px-4 py-2 text-lg font-semibold border border-orange-500 rounded-xl text-orange-500 hover:bg-orange-700 hover:text-white transition-colors duration-200"
+          >
+            {/* Shopping Cart Icon */}
+            <svg
+              className="w-5 h-5 mr-2"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+              />
+            </svg>
+            Modify Cart
+          </Link>
         </div>
+        {/* END MODIFIED HEADER */}
 
         <div className="flex gap-8">
           {/* Left Column: Details */}
           <div className="flex-grow space-y-6">
-            {/* Customer Address Card (The update target) */}
+            {/* Customer Address Card */}
             <div className="bg-gray-800 border border-gray-700 rounded-lg p-6">
               <h3 className="font-bold text-xl text-white mb-4 flex justify-between items-center">
                 1. CUSTOMER ADDRESS
@@ -684,9 +92,7 @@ const CheckoutSummaryPage = () => {
                   Change
                 </Link>
               </h3>
-              {/* 🟢 Displays the dynamically updated full name */}
               <p className="text-gray-300">{userAddress.fullName}</p>
-              {/* 🟢 Displays the dynamically updated address summary string */}
               <p className="text-gray-400 text-sm mt-1">
                 {userAddress.addressSummary}
               </p>
@@ -794,6 +200,14 @@ const CheckoutSummaryPage = () => {
                   Showing item {safeStartIndex + 1} of {totalShippingItems}
                 </p>
               </div>
+
+              {/* Continue Shopping TEXT LINK */}
+              <Link
+                to="/electronics"
+                className="w-full mt-4 text-center text-orange-500 text-sm font-semibold hover:text-orange-400 transition-colors block"
+              >
+                Continue Shopping
+              </Link>
             </div>
 
             {/* Payment Method */}
@@ -846,26 +260,6 @@ const CheckoutSummaryPage = () => {
                   ${finalOrderTotal.toFixed(2)}
                 </span>
               </div>
-
-              {/* 🟢 START: NEW BUTTONS */}
-              <div className="flex flex-col space-y-3 mt-6">
-                {/* 1. Modify Cart Button (links to /cart) */}
-                <Link
-                  to="/cart"
-                  className="w-full py-3 text-center text-white border border-gray-600 rounded-xl font-semibold hover:bg-gray-700 transition-colors block"
-                >
-                  Modify Cart
-                </Link>
-
-                {/* 2. Continue Shopping Button (links to /electronics) */}
-                <Link
-                  to="/electronics"
-                  className="w-full py-3 text-center text-orange-500 hover:text-orange-400 font-semibold transition-colors block"
-                >
-                  Continue Shopping
-                </Link>
-              </div>
-              {/* 🟢 END: NEW BUTTONS */}
 
               <button
                 // Removed alert and set to a no-op function
