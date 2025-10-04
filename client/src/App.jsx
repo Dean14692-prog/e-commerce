@@ -64,6 +64,7 @@ import WishlistPage from "./pages/WishlistPage"; // New import
 import { ElectronicsProvider } from "./pages/ElectronicsContext"; // New import
 import CustomerDetailsEdit from "./pages/CustomerEdit";
 import InvoicePage from "./pages/InvoicePage"; // Add this line
+import OrderSuccessPage from "./pages/PaymentPage"
 
 const App = () => {
   return (
@@ -83,6 +84,7 @@ const App = () => {
               element={<CustomerDetailsEdit />}
             />
             <Route path="/invoice" element={<InvoicePage />} />
+            <Route path="/payment" element={<OrderSuccessPage />} />
           </Routes>
         </div>
       </ElectronicsProvider>
