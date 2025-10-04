@@ -1,5 +1,3 @@
-
-
 import React, { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { useElectronics } from "./ElectronicsContext";
@@ -93,12 +91,10 @@ const InvoicePage = () => {
               </p>
             )}
           </div>
-          <div className="ml-50">
+          <div className="ml-25">
             <h3 className="text-xl font-semibold text-white mb-2">Ship To:</h3>
-            {/* 🟢 MODIFIED: Added person and phone to Ship To */}
-            {/* Person's Name */}
+
             <p className="text-white font-medium">{userAddress.fullName}</p>
-            {/* Location (Address) */}
             <p>{userAddress.email || "N/A"}</p>
             {/* Location (City, Region) */}
             <p>
@@ -127,13 +123,34 @@ const InvoicePage = () => {
             {cart.map((item) => (
               <div
                 key={item.id}
-                className="flex justify-between items-center text-gray-300 border-b border-gray-800 pb-2"
+                className="flex items-center justify-between text-gray-300 border-b border-gray-800 pb-3"
               >
-                <div className="flex-grow">
-                  <p className="text-white font-medium">{item.name}</p>
-                  <p className="text-sm text-gray-500">Qty: {item.quantity}</p>
+                {/* Product Image and Details Container */}
+                <div className="flex items-center flex-grow">
+                  {/* Image */}
+                  {/* Assuming 'item.image' holds the URL for the product image */}
+                  <img
+                    src={item.image}
+                    alt={item.name}
+                    className="w-16 h-16 object-cover rounded-md border border-gray-700 mr-4 flex-shrink-0"
+                    // Fallback in case image is missing
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src =
+                        "https://via.placeholder.com/64x64?text=No+Image";
+                    }}
+                  />
+                  {/* Name and Quantity */}
+                  <div className="text-left">
+                    <p className="text-white font-medium">{item.name}</p>
+                    <p className="text-sm text-gray-500">
+                      Qty: {item.quantity}
+                    </p>
+                  </div>
                 </div>
-                <span className="font-semibold">
+
+                {/* Total Price for this item */}
+                <span className="font-semibold text-lg flex-shrink-0 ml-4">
                   ${(item.price * item.quantity).toFixed(2)}
                 </span>
               </div>
