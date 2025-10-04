@@ -79,7 +79,30 @@ const OrderSuccessPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#1a2037] p-4 md:p-8 flex items-center justify-center font-sans">
+    // The main div uses p-4 md:p-8 and is relative for absolute positioning of the icon.
+    <div className="min-h-screen bg-[#1a2037] p-4 md:p-8 flex items-center justify-center font-sans relative">
+      {/* ⬅️ BACK ICON - Absolute positioned to the top-left corner */}
+      {/* We use 'top-4' and 'left-4' (or 'top-8' and 'left-8' for md screens) to respect the padding */}
+      <Link
+        to="/invoice" // Navigate back to the shopping/home page
+        className="absolute top-4 left-4 md:top-8 md:left-8 inline-flex items-center text-gray-400 hover:text-orange-500 transition-colors z-10"
+      >
+        <svg
+          className="w-6 h-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M10 19l-7-7m0 0l7-7m-7 7h18"
+          />
+        </svg>
+      </Link>
+      {/* End Back Icon */}
+
       <div className="max-w-xl w-full bg-gray-900 border border-gray-700 rounded-lg shadow-2xl p-8 text-center">
         {/* Success Icon */}
         <div className="mx-auto w-24 h-24 flex items-center justify-center bg-orange-500 rounded-full mb-6">
@@ -132,22 +155,6 @@ const OrderSuccessPage = () => {
         >
           Initiate M-Pesa STK Push
         </button>
-
-        {/* Action Buttons */}
-        <div className="space-y-4">
-          <button
-            onClick={handleGoToOrders}
-            className="w-full text-gray-400 hover:text-orange-500 text-sm font-semibold transition-colors py-3 border border-gray-700 rounded-xl block text-center"
-          >
-            Go to My Orders
-          </button>
-          <Link
-            to="/electronics"
-            className="w-full text-gray-400 hover:text-orange-500 text-sm font-semibold transition-colors py-3 border border-gray-700 rounded-xl block text-center"
-          >
-            Return to Shop
-          </Link>
-        </div>
       </div>
 
       {/* Toast Notification */}
