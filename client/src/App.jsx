@@ -62,6 +62,7 @@ import CartPage from "./pages/CartPage"; // New import
 import CheckoutSummaryPage from "./pages/CheckoutSummaryPage"; // New import
 import WishlistPage from "./pages/WishlistPage"; // New import
 import { ElectronicsProvider } from "./pages/ElectronicsContext"; // New import
+import CustomerDetailsEdit from "./pages/CustomerEdit";
 
 const App = () => {
   return (
@@ -73,9 +74,13 @@ const App = () => {
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/electronics" element={<Electronics />} />
-            <Route path="/cart" element={<CartPage />} /> 
-            <Route path="/checkout" element={<CheckoutSummaryPage />} />{" "}
-            <Route path="/wishlist" element={<WishlistPage />} />{" "}
+            <Route path="/cart" element={<CartPage />} />
+            <Route path="/checkout" element={<CheckoutSummaryPage />} />
+            <Route path="/wishlist" element={<WishlistPage />} />
+            <Route
+              path="/Customer-details-editing"
+              element={<CustomerDetailsEdit />}
+            />
           </Routes>
         </div>
       </ElectronicsProvider>
