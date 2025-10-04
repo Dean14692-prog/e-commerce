@@ -1,6 +1,6 @@
 import React from "react";
-import { Link } from "react-router-dom"; // <-- FIX: Link belongs here
-import { useElectronics, ListProductCard } from "./ElectronicsContext"; // <-- FIX: All custom hooks and components belong here
+import { Link } from "react-router-dom"; 
+import { useElectronics, ListProductCard } from "./ElectronicsContext"; 
 
 const WishlistPage = () => {
   const { wishlistProducts } = useElectronics();

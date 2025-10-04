@@ -1,23 +1,25 @@
 import React, { createContext, useState, useMemo, useContext } from "react";
-// NOTE: Link is removed from here. It should be imported from 'react-router-dom' in the components that use it (Electronics.jsx, CartPage.jsx, etc.).
+// NOTE: Link is removed from here. It should be imported from 'react-router-dom' in the components that use it (Clothings.jsx, CartPage.jsx, etc.).
 
 // Initializing the Context
-const ElectronicsContext = createContext();
+const ClothingsContext = createContext();
 
 const initialUserAddress = {
-  fullName: "Dennis Ngui",
+  fullName: "Jane Doe",
   addressSummary:
-    "Nairobi | CBD - Luthuli/Afya Centre/ R. Ngala | +254 796073063",
+    "New York | Manhattan - 5th Ave / Central Park | +1 212-555-1234",
 
-  firstName: "Dennis",
-  lastName: "Ngui",
-  phone: "796073063",
-  additionalPhone: "796073063",
-  address: "Nairobi",
+  firstName: "Jane",
+  lastName: "Doe",
+  phone: "2125551234",
+  additionalPhone: "2125551234",
+  address: "New York",
   additionalInfo: "",
-  region: "Nairobi",
-  city: "CBD - Luthuli/Afya Centre/ R. Ngala",
+  region: "New York",
+  city: "Manhattan - 5th Ave / Central Park",
 };
+
+// --- ICON COMPONENTS (Reused from ElectronicsContext) ---
 
 const UserCircleIcon = (props) => (
   <svg {...props} fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -39,13 +41,14 @@ const UserIcon = (props) => (
     />
   </svg>
 );
-const CubeIcon = (props) => (
+// Changed CubeIcon to TagIcon for a more clothing-related feel
+const TagIcon = (props) => (
   <svg {...props} fill="none" viewBox="0 0 24 24" stroke="currentColor">
     <path
       strokeLinecap="round"
       strokeLinejoin="round"
       strokeWidth={2}
-      d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10m0-10l-8 4v10"
+      d="M7 7h.01M7 3h10a2 2 0 012 2v14a2 2 0 01-2 2H7a2 2 0 01-2-2V5a2 2 0 012-2z"
     />
   </svg>
 );
@@ -74,123 +77,123 @@ const ShoppingCartIcon = (props) => (
 export const Components = {
   UserCircleIcon,
   UserIcon,
-  CubeIcon,
+  CubeIcon: TagIcon, // Exporting TagIcon as CubeIcon for compatibility with existing component structure
   HeartIcon,
   ShoppingCartIcon,
   // Note: ProductCard and ListProductCard are defined below and exported separately
 };
 
-// ... [The rest of the initialProducts, deliveryFees, and context setup remains the same]
+// --- DUMMY DATA FOR CLOTHING ---
 const initialProducts = [
   {
-    id: 1,
-    name: "iPhone 15 Pro Max",
-    price: 1199,
-    originalPrice: 1299,
-    image: "https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=400",
-    rating: 4.8,
-    reviews: 1250,
-    category: "phones",
-    description: "6.7-inch Super Retina XDR display with ProMotion technology",
-    inStock: true,
-    discount: 8,
-  },
-  {
-    id: 2,
-    name: 'MacBook Pro 16"',
-    price: 2499,
-    originalPrice: 2699,
-    image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=400",
-    rating: 4.9,
-    reviews: 890,
-    category: "laptops",
-    description: "M3 Pro chip, 18GB RAM, 512GB SSD",
-    inStock: true,
-    discount: 7,
-  },
-  {
-    id: 3,
-    name: "Sony WH-1000XM5",
-    price: 349,
-    originalPrice: 399,
-    image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400",
-    rating: 4.7,
-    reviews: 2340,
-    category: "headphones",
-    description: "Industry-leading noise canceling headphones",
-    inStock: true,
-    discount: 13,
-  },
-  {
-    id: 4,
-    name: 'Samsung 55" OLED TV',
-    price: 1299,
-    originalPrice: 1499,
-    image: "https://images.unsplash.com/photo-1593784991095-a205069470b6?w=400",
-    rating: 4.6,
-    reviews: 456,
-    category: "tv",
-    inStock: false,
-    description: "4K Ultra HD Smart TV with HDR",
-    discount: 13,
-  },
-  {
-    id: 5,
-    name: 'iPad Pro 12.9"',
-    price: 1099,
-    originalPrice: 1199,
-    image: "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=400",
-    rating: 4.8,
-    reviews: 734,
-    category: "tablets",
-    description: "M2 chip, 256GB, Wi-Fi + Cellular",
-    inStock: true,
-    discount: 8,
-  },
-  {
-    id: 6,
-    name: "Gaming Mechanical Keyboard",
-    price: 159,
-    originalPrice: 199,
-    image: "https://images.unsplash.com/photo-1541140532154-b024d705b90a?w=400",
+    id: 101,
+    name: "Classic Denim Jacket",
+    price: 79.99,
+    originalPrice: 99.99,
+    image: "https://images.unsplash.com/photo-1543087903-1ac2ec7ba8c5?w=400",
     rating: 4.5,
-    reviews: 1890,
+    reviews: 540,
+    category: "jackets",
+    description: "Vintage wash, unisex fit, 100% cotton.",
+    inStock: true,
+    discount: 20,
+  },
+  {
+    id: 102,
+    name: "Slim Fit Chinos",
+    price: 49.99,
+    originalPrice: 59.99,
+    image: "https://images.unsplash.com/photo-1594938290371-3c480a79a079?w=400",
+    rating: 4.3,
+    reviews: 820,
+    category: "trousers",
+    description: "Stretch material, available in multiple colors.",
+    inStock: true,
+    discount: 16,
+  },
+  {
+    id: 103,
+    name: "Oversized Knit Sweater",
+    price: 59.5,
+    originalPrice: 70.0,
+    image: "https://images.unsplash.com/photo-1582046808792-c439121a221f?w=400",
+    rating: 4.7,
+    reviews: 310,
+    category: "sweaters",
+    description: "Wool blend, perfect for winter layering.",
+    inStock: true,
+    discount: 15,
+  },
+  {
+    id: 104,
+    name: "Floral Print Maxi Dress",
+    price: 89.0,
+    originalPrice: 110.0,
+    image: "https://images.unsplash.com/photo-1580951474026-b51c3d1f0542?w=400",
+    rating: 4.9,
+    reviews: 120,
+    category: "dresses",
+    inStock: false,
+    description: "Lightweight fabric, adjustable spaghetti straps.",
+    discount: 19,
+  },
+  {
+    id: 105,
+    name: "Organic Cotton T-Shirt (3-Pack)",
+    price: 35.0,
+    originalPrice: 40.0,
+    image: "https://images.unsplash.com/photo-1521572170312-3200707a7e93?w=400",
+    rating: 4.6,
+    reviews: 1500,
+    category: "t-shirts",
+    description: "Crew neck, available in black, white, and grey.",
+    inStock: true,
+    discount: 12,
+  },
+  {
+    id: 106,
+    name: "Luxury Silk Scarf",
+    price: 120.0,
+    originalPrice: 150.0,
+    image: "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?w=400",
+    rating: 4.8,
+    reviews: 80,
     category: "accessories",
-    description: "RGB Backlit, Cherry MX Blue switches",
+    description: "Hand-rolled edges, Italian silk.",
     inStock: true,
     discount: 20,
   },
 ];
-const deliveryFees = 6.01;
+const deliveryFees = 5.99;
 
 // ----------------------------------------------------------------------
 // CONTEXT PROVIDER
 // ----------------------------------------------------------------------
 
-export const ElectronicsProvider = ({ children }) => {
+export const ClothingsProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
   const [favorites, setFavorites] = useState([]);
   const [viewMode, setViewMode] = useState("grid");
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
-  const [priceRange, setPriceRange] = useState([0, 2000]);
+  const [priceRange, setPriceRange] = useState([0, 150]); // Adjusted for clothing prices
   const [showFilters, setShowFilters] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-  // NEW STATE for customer details
+  // STATE for customer details
   const [userAddress, setUserAddress] = useState(initialUserAddress);
 
   const products = initialProducts;
 
   const categories = useMemo(() => {
     return [
-      { id: "all", name: "All Products", count: products.length },
+      { id: "all", name: "All Clothings", count: products.length },
       ...[
-        "phones",
-        "laptops",
-        "headphones",
-        "tv",
-        "tablets",
+        "jackets",
+        "trousers",
+        "sweaters",
+        "dresses",
+        "t-shirts",
         "accessories",
       ].map((catId) => ({
         id: catId,
@@ -280,7 +283,7 @@ export const ElectronicsProvider = ({ children }) => {
     wishlistProducts,
     deliveryFees,
     orderTotal,
-    userAddress, // <-- Added
+    userAddress,
     // Functions
     setCart,
     setFavorites,
@@ -294,27 +297,27 @@ export const ElectronicsProvider = ({ children }) => {
     removeFromCart,
     updateQuantity,
     toggleFavorite,
-    setUserAddress, // <-- Added
-    // Components (now included in contextValue for useElectronics hook)
+    setUserAddress,
+    // Components (now included in contextValue for useClothings hook)
     ...Components,
   };
 
   return (
-    <ElectronicsContext.Provider value={contextValue}>
+    <ClothingsContext.Provider value={contextValue}>
       {children}
-    </ElectronicsContext.Provider>
+    </ClothingsContext.Provider>
   );
 };
 
 // Hook for easy context access
-export const useElectronics = () => useContext(ElectronicsContext);
+export const useClothings = () => useContext(ClothingsContext);
 
 // ----------------------------------------------------------------------
-// COMPONENT CARDS (Exported Separately)
+// COMPONENT CARDS (Reused from ElectronicsContext with useClothings hook)
 // ----------------------------------------------------------------------
 
 export const ProductCard = ({ product }) => {
-  const { addToCart, toggleFavorite, favorites } = useElectronics();
+  const { addToCart, toggleFavorite, favorites } = useClothings();
 
   return (
     <div className="bg-gray-800 border border-gray-700 rounded-lg shadow-lg hover:shadow-2xl hover:border-orange-500/50 transition-all duration-300 group overflow-hidden flex flex-col">
@@ -421,7 +424,7 @@ export const ProductCard = ({ product }) => {
 };
 
 export const ListProductCard = ({ product }) => {
-  const { addToCart, toggleFavorite, favorites } = useElectronics();
+  const { addToCart, toggleFavorite, favorites } = useClothings();
   return (
     <div className="bg-gray-800 mb-2 border border-gray-700 rounded-lg shadow-lg hover:shadow-xl hover:border-orange-500/50 transition-all duration-300 overflow-hidden">
       <div className="flex">
