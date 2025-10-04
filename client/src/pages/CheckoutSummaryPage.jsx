@@ -1,3 +1,6 @@
+
+
+
 // import React, { useState } from "react";
 // import { Link } from "react-router-dom";
 // import { useElectronics } from "./ElectronicsContext";
@@ -39,7 +42,7 @@
 //   };
 
 //   const canGoPrev = safeStartIndex > 0;
-//   // FIX: Correctly declared with 'const'
+//   // Confirmed fix for 'canGoNext is not defined' error
 //   const canGoNext = safeStartIndex < maxStartIndex;
 
 //   // Assuming a static tax rate for display purposes
@@ -105,7 +108,8 @@
 //               </h3>
 
 //               {/* Shipping Items Slider */}
-//               <div className="relative border border-gray-700 rounded-lg p-4 bg-gray-900 mb-6">
+//               {/* Added 'group' class to enable group-hover utilities */}
+//               <div className="relative border border-gray-700 rounded-lg p-4 bg-gray-900 mb-6 group">
 //                 <h4 className="text-lg font-semibold text-white mb-3">
 //                   Shipping {totalShippingItems} Item
 //                   {totalShippingItems !== 1 ? "s" : ""}
@@ -137,9 +141,9 @@
 //                       </span>
 //                     </div>
 
-//                     {/* Navigation Buttons */}
+//                     {/* Navigation Buttons: opacity-30 when not hovering, opacity-100 on hover */}
 //                     {totalShippingItems > 1 && (
-//                       <div className="absolute top-1/2 -translate-y-1/2 flex justify-between w-full px-2">
+//                       <div className="absolute top-1/2 -translate-y-1/2 flex justify-between w-full px-2 opacity-30 group-hover:opacity-100 transition-opacity duration-300">
 //                         <button
 //                           onClick={prevItem}
 //                           disabled={!canGoPrev}
@@ -287,9 +291,9 @@
 
 // export default CheckoutSummaryPage;
 
-
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+// 🟢 IMPORT: Added useNavigate
+import { Link, useNavigate } from "react-router-dom";
 import { useElectronics } from "./ElectronicsContext";
 
 const CheckoutSummaryPage = () => {
@@ -302,6 +306,9 @@ const CheckoutSummaryPage = () => {
     UserCircleIcon,
     userAddress,
   } = useElectronics();
+
+  // 🟢 HOOK: Initialize useNavigate
+  const navigate = useNavigate();
 
   // --- START: Original Logic from the CheckoutSummaryPage.jsx file ---
 
@@ -553,8 +560,8 @@ const CheckoutSummaryPage = () => {
               </div>
 
               <button
-                // Removed alert and set to a no-op function
-                onClick={() => {}}
+                // 🟢 NEW: Navigate to the Invoice page on click
+                onClick={() => navigate("/invoice")}
                 disabled={cart.length === 0}
                 className={`w-full py-4 mt-6 rounded-xl font-extrabold text-lg transition-all duration-200 shadow-xl ${
                   cart.length > 0

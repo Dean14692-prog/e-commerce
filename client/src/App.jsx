@@ -63,6 +63,7 @@ import CheckoutSummaryPage from "./pages/CheckoutSummaryPage"; // New import
 import WishlistPage from "./pages/WishlistPage"; // New import
 import { ElectronicsProvider } from "./pages/ElectronicsContext"; // New import
 import CustomerDetailsEdit from "./pages/CustomerEdit";
+import InvoicePage from "./pages/InvoicePage"; // Add this line
 
 const App = () => {
   return (
@@ -81,6 +82,7 @@ const App = () => {
               path="/Customer-details-editing"
               element={<CustomerDetailsEdit />}
             />
+            <Route path="/invoice" element={<InvoicePage />} />
           </Routes>
         </div>
       </ElectronicsProvider>
