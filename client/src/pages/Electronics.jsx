@@ -64,11 +64,11 @@
 //   const [selectedCategory, setSelectedCategory] = useState("all");
 //   const [priceRange, setPriceRange] = useState([0, 2000]);
 //   const [showFilters, setShowFilters] = useState(false);
+//   // State that controls whether to display the Cart page or the main shop page
 //   const [showCartPage, setShowCartPage] = useState(false);
 //   const [showWishlistPage, setShowWishlistPage] = useState(false);
 //   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 //   const [showCheckoutSummaryPage, setShowCheckoutSummaryPage] = useState(false);
-//   // MODIFIED STATE: For controlling the index of the first displayed item in the two-item shipment window
 //   const [startDisplayIndex, setStartDisplayIndex] = useState(0);
 
 //   const products = [
@@ -516,7 +516,7 @@
 //     );
 //   }
 
-//   // RENDER CHECKOUT SUMMARY PAGE (MODIFIED RENDER BLOCK)
+//   // RENDER CHECKOUT SUMMARY PAGE
 //   if (showCheckoutSummaryPage) {
 //     const totalShippingItems = cart.length;
 //     // Max index for a 2-item display. If items=6, max=4 (to show 4 & 5). If items=1, max=0.
@@ -932,12 +932,13 @@
 //     );
 //   }
 
-//   // RENDER CART PAGE
+//   // RENDER CART PAGE (The dedicated page you requested)
 //   if (showCartPage) {
 //     return (
 //       <div className="min-h-screen bg-[#1a2037] p-8">
 //         <div className="max-w-7xl mx-auto">
 //           <button
+//             // Navigates back to the main shopping page
 //             onClick={() => setShowCartPage(false)}
 //             className="flex items-center text-gray-400 hover:text-orange-500 transition-colors mb-6"
 //           >
@@ -960,25 +961,25 @@
 
 //           <div className="flex justify-between items-end mb-8 border-b border-gray-700 pb-4">
 //             <h2 className="text-3xl font-bold text-white">
-//               Cart ({cartItemsCount}
-//               {cartItemsCount === 1 ? "item" : "items"})
+//               Your Shopping Cart ({cartItemsCount}
+//               {cartItemsCount === 1 ? " item" : " items"})
 //             </h2>
 //           </div>
 
 //           <div className="flex flex-col lg:flex-row gap-8">
-//             {/* Left Column: Cart Items */}
+//             {/* Left Column: Cart Items List */}
 //             <div className="flex-grow space-y-4">
 //               {cart.length === 0 ? (
-//                 <div className="bg-gray-800 p-8 rounded-lg text-center">
+//                 <div className="bg-gray-800 p-8 rounded-lg text-center border border-gray-700">
 //                   <h3 className="text-xl font-semibold text-gray-400">
-//                     Your cart is empty.
+//                     Your cart is empty. Start adding some awesome electronics!
 //                   </h3>
 //                 </div>
 //               ) : (
 //                 cart.map((item) => (
 //                   <div
 //                     key={item.id}
-//                     className="flex p-4 mb-2 bg-gray-800 border border-gray-700 rounded-lg shadow-lg"
+//                     className="flex p-4 bg-gray-800 border border-gray-700 rounded-lg shadow-xl hover:shadow-2xl transition-shadow"
 //                   >
 //                     <img
 //                       src={item.image}
@@ -990,8 +991,8 @@
 //                       <h4 className="font-semibold text-lg text-white mb-1">
 //                         {item.name}
 //                       </h4>
-//                       <p className="text-sm text-gray-400 mb-3">
-//                         {item.description.substring(0, 50)}...
+//                       <p className="text-sm text-gray-400 mb-3 line-clamp-2">
+//                         {item.description}
 //                       </p>
 
 //                       <div className="flex items-center space-x-4">
@@ -1020,18 +1021,18 @@
 //                       </div>
 //                     </div>
 
-//                     <div className="flex flex-col items-end justify-between">
+//                     <div className="flex flex-col items-end justify-between ml-4">
 //                       <div className="text-xl font-bold text-white mb-2">
 //                         ${(item.price * item.quantity).toFixed(2)}
 //                       </div>
 
 //                       {/* Quantity Controls */}
-//                       <div className="flex items-center space-x-0 bg-gray-700 rounded-lg overflow-hidden">
+//                       <div className="flex items-center space-x-0 bg-gray-700 rounded-lg overflow-hidden border border-gray-600">
 //                         <button
 //                           onClick={() =>
 //                             updateQuantity(item.id, item.quantity - 1)
 //                           }
-//                           className="p-2 hover:bg-gray-600 rounded-l-lg text-gray-300"
+//                           className="p-2 w-8 h-8 flex items-center justify-center hover:bg-gray-600 text-gray-300 transition-colors"
 //                         >
 //                           <svg
 //                             className="w-4 h-4"
@@ -1047,14 +1048,14 @@
 //                             />
 //                           </svg>
 //                         </button>
-//                         <span className="px-3 py-2 text-white text-sm border-l border-r border-gray-600">
+//                         <span className="px-3 py-2 text-white text-sm border-l border-r border-gray-600 w-10 text-center">
 //                           {item.quantity}
 //                         </span>
 //                         <button
 //                           onClick={() =>
 //                             updateQuantity(item.id, item.quantity + 1)
 //                           }
-//                           className="p-2 hover:bg-gray-600 rounded-r-lg text-gray-300"
+//                           className="p-2 w-8 h-8 flex items-center justify-center hover:bg-gray-600 text-gray-300 transition-colors"
 //                         >
 //                           <svg
 //                             className="w-4 h-4"
@@ -1077,6 +1078,7 @@
 //               )}
 //             </div>
 
+//             {/* Right Column: Cart Summary */}
 //             <div className="lg:w-80 flex-shrink-0">
 //               <div className="bg-gray-800 border border-gray-700 rounded-lg shadow-xl p-6 sticky top-24">
 //                 <h3 className="font-bold text-lg text-white mb-4 border-b border-gray-700 pb-3">
@@ -1091,10 +1093,23 @@
 //                 </div>
 
 //                 <button
+//                   // Navigates to the Checkout Summary page
 //                   onClick={() => setShowCheckoutSummaryPage(true)}
-//                   className="w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white py-3 rounded-xl font-semibold transition-all duration-200 shadow-lg hover:shadow-orange-500/25"
+//                   disabled={cart.length === 0}
+//                   className={`w-full py-3 rounded-xl font-semibold transition-all duration-200 shadow-lg ${
+//                     cart.length > 0
+//                       ? "bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white hover:shadow-orange-500/25"
+//                       : "bg-gray-600 text-gray-400 cursor-not-allowed"
+//                   }`}
 //                 >
 //                   Checkout (${cartTotal.toFixed(2)})
+//                 </button>
+
+//                 <button
+//                   onClick={() => setShowCartPage(false)}
+//                   className="w-full text-orange-500 hover:text-orange-400 mt-4 text-sm font-semibold transition-colors py-2 border border-orange-500 rounded-xl"
+//                 >
+//                   Continue Shopping
 //                 </button>
 //               </div>
 //             </div>
@@ -1141,7 +1156,7 @@
 //               </div>
 //             </div>
 
-//             {/* START OF NEW NAVBAR ICONS SECTION */}
+//             {/* NAVBAR ICONS SECTION */}
 //             <div className="flex items-center space-x-6">
 //               {/* Account Dropdown Section */}
 //               <div
@@ -1157,7 +1172,7 @@
 //                 {isDropdownOpen && (
 //                   <div
 //                     className="absolute right-0 top-full w-48 border border-gray-600 rounded-md shadow-xl py-1"
-//                     style={{ backgroundColor: "#2A2F47", zIndex: 60 }} // Added z-index to ensure it is above the sticky header
+//                     style={{ backgroundColor: "#2A2F47", zIndex: 60 }}
 //                   >
 //                     {/* Sign Up Link Styled as a Button */}
 //                     <div className="p-2">
@@ -1173,8 +1188,6 @@
 //                     <Link
 //                       to="/login"
 //                       className="group flex items-center space-x-2 px-4 py-2 text-white hover:text-orange-400 transition-colors rounded-md"
-//                       // Inline styles are often used in React for dynamic styling but for Tailwind this is non-standard.
-//                       // Leaving them as they were provided for minimal change but note that the hover styles in the original snippet were flawed React inline syntax.
 //                       onMouseEnter={(e) =>
 //                         (e.currentTarget.style.backgroundColor = "#3A4058")
 //                       }
@@ -1226,6 +1239,7 @@
 //                 )}
 //               </div>
 
+//               {/* CART NAVIGATION BUTTON (This handles the click to the cart page) */}
 //               <button
 //                 onClick={() => setShowCartPage(true)}
 //                 className="flex items-center space-x-1 text-white hover:text-orange-400 transition-colors"
@@ -1241,7 +1255,6 @@
 //                 <span className="hidden md:inline">Cart</span>
 //               </button>
 //             </div>
-//             {/* END OF NEW NAVBAR ICONS SECTION */}
 //           </div>
 //         </div>
 //       </header>
