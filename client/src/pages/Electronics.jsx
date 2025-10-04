@@ -67,7 +67,9 @@
 //   const [showCartPage, setShowCartPage] = useState(false);
 //   const [showWishlistPage, setShowWishlistPage] = useState(false);
 //   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-//   const [showCheckoutSummaryPage, setShowCheckoutSummaryPage] = useState(false); // NEW STATE FOR CHECKOUT SUMMARY
+//   const [showCheckoutSummaryPage, setShowCheckoutSummaryPage] = useState(false);
+//   // MODIFIED STATE: For controlling the index of the first displayed item in the two-item shipment window
+//   const [startDisplayIndex, setStartDisplayIndex] = useState(0);
 
 //   const products = [
 //     {
@@ -514,34 +516,48 @@
 //     );
 //   }
 
-//   // RENDER CHECKOUT SUMMARY PAGE (NEW RENDER BLOCK)
+//   // RENDER CHECKOUT SUMMARY PAGE (MODIFIED RENDER BLOCK)
 //   if (showCheckoutSummaryPage) {
-//     // Mimicking the structure and colors of the uploaded images
-//     const ShippingItemCard = ({ item }) => (
-//       <div className="flex items-start p-4 bg-gray-700/50 rounded-lg">
-//         <img
-//           src={item.image}
-//           alt={item.name}
-//           className="w-16 h-16 object-cover rounded-md border border-gray-600 flex-shrink-0"
-//         />
-//         <div className="ml-3 flex-grow">
-//           <p className="text-sm font-medium text-white line-clamp-2">
-//             {item.name}
-//           </p>
-//           <p className="text-xs text-gray-400 mt-1">
-//             Qty: {item.quantity} | ${item.price} each
-//           </p>
-//           <div className="flex items-center mt-1">
-//             <span className="text-orange-400 text-xs font-semibold">
-//               JUMIA EXPRESS
-//             </span>
-//             <span className="ml-3 text-sm font-semibold text-white">
-//               KSh {(item.price * item.quantity).toFixed(2)}
-//             </span>
-//           </div>
-//         </div>
-//       </div>
+//     const totalShippingItems = cart.length;
+//     // Max index for a 2-item display. If items=6, max=4 (to show 4 & 5). If items=1, max=0.
+//     const maxStartIndex = totalShippingItems > 1 ? totalShippingItems - 2 : 0;
+
+//     // Safety clamp the index, ensuring it's within [0, maxStartIndex]
+//     const safeStartIndex = Math.min(
+//       Math.max(startDisplayIndex, 0),
+//       maxStartIndex
 //     );
+
+//     // Non-looping Navigation functions
+//     const nextItem = () => {
+//       // Move one step forward, but never past the maxStartIndex
+//       setStartDisplayIndex((prevIndex) =>
+//         Math.min(prevIndex + 1, maxStartIndex)
+//       );
+//     };
+
+//     const prevItem = () => {
+//       // Move one step back, but never below 0
+//       setStartDisplayIndex((prevIndex) => Math.max(prevIndex - 1, 0));
+//     };
+
+//     // Visibility checks for non-looping behavior:
+//     // Show Prev only if the first item is not index 0
+//     const canGoPrev = safeStartIndex > 0;
+//     // Show Next only if the first item is not the maximum possible starting index
+//     const canGoNext = safeStartIndex < maxStartIndex;
+
+//     // Logic to select the items to display (max 2 items)
+//     const itemsToDisplay = [];
+//     if (totalShippingItems > 0) {
+//       // First item is always the safe start index
+//       itemsToDisplay.push(cart[safeStartIndex]);
+
+//       // Second item, only if available (i.e., less than total items)
+//       if (safeStartIndex + 1 < totalShippingItems) {
+//         itemsToDisplay.push(cart[safeStartIndex + 1]);
+//       }
+//     }
 
 //     return (
 //       <div className="min-h-screen bg-[#1a2037] p-8">
@@ -657,7 +673,7 @@
 //                   </div>
 //                 </div>
 
-//                 {/* Shipment */}
+//                 {/* Shipment (UPDATED SECTION for 2 items and non-looping scroll) */}
 //                 <div className="space-y-4">
 //                   <p className="text-gray-300 font-medium">
 //                     Shipment 1/1{" "}
@@ -665,12 +681,126 @@
 //                       Fulfilled by Jumia
 //                     </span>
 //                   </p>
-//                   <p className="text-gray-400 text-sm">
+//                   <p className="text-gray-400 text-sm mb-4">
 //                     Pick-up Station: Delivery between 08 October and 09 October
 //                   </p>
-//                   {cart.map((item) => (
-//                     <ShippingItemCard key={item.id} item={item} />
-//                   ))}
+
+//                   {/* Horizontal Two-Item Display with Navigation */}
+//                   <div className="relative group p-4 border border-gray-700 rounded-lg">
+//                     <div
+//                       className={`flex ${
+//                         itemsToDisplay.length > 1
+//                           ? "space-x-4"
+//                           : "justify-center"
+//                       }`}
+//                     >
+//                       {itemsToDisplay.map((item, index) => (
+//                         // Item Container (Increased Height)
+//                         <div key={item.id} className="flex-1">
+//                           <div className="flex items-start p-6 bg-gray-700/50 rounded-lg h-full">
+//                             <img
+//                               src={item.image}
+//                               alt={item.name}
+//                               className="w-20 h-20 object-cover rounded-md border border-gray-600 flex-shrink-0" // Increased size
+//                             />
+//                             <div className="ml-4 flex-grow">
+//                               <p className="text-base font-semibold text-white line-clamp-2">
+//                                 {item.name}
+//                               </p>
+//                               <p className="text-sm text-gray-400 mt-1">
+//                                 Qty: {item.quantity} | ${item.price} each
+//                               </p>
+//                               <div className="flex items-center mt-2">
+//                                 <span className="text-orange-400 text-sm font-semibold">
+//                                   JUMIA EXPRESS
+//                                 </span>
+//                                 <span className="ml-3 text-lg font-bold text-white">
+//                                   ${(item.price * item.quantity).toFixed(2)}
+//                                 </span>
+//                               </div>
+//                             </div>
+//                           </div>
+//                         </div>
+//                       ))}
+//                     </div>
+
+//                     {/* Navigation Arrows on Hover (Only show if more than two items exist) */}
+//                     {totalShippingItems > 2 && (
+//                       <>
+//                         {/* Previous Button (Left) */}
+//                         <button
+//                           onClick={prevItem}
+//                           // Hidden when at start (safeStartIndex === 0), visible otherwise on hover
+//                           className={`absolute left-0 top-1/2 transform -translate-y-1/2 -ml-3 transition-opacity p-2 rounded-full bg-gray-800/80 hover:bg-gray-600 text-white z-10 ${
+//                             canGoPrev
+//                               ? "opacity-0 group-hover:opacity-100"
+//                               : "hidden"
+//                           }`}
+//                           aria-label="Previous item"
+//                         >
+//                           <svg
+//                             className="w-5 h-5"
+//                             fill="none"
+//                             stroke="currentColor"
+//                             viewBox="0 0 24 24"
+//                           >
+//                             <path
+//                               strokeLinecap="round"
+//                               strokeLinejoin="round"
+//                               strokeWidth={2}
+//                               d="M15 19l-7-7 7-7"
+//                             />
+//                           </svg>
+//                         </button>
+
+//                         {/* Next Button (Right) */}
+//                         <button
+//                           onClick={nextItem}
+//                           // Hidden when at end (safeStartIndex === maxStartIndex), visible otherwise on hover
+//                           className={`absolute right-0 top-1/2 transform -translate-y-1/2 -mr-3 transition-opacity p-2 rounded-full bg-gray-800/80 hover:bg-gray-600 text-white z-10 ${
+//                             canGoNext
+//                               ? "opacity-0 group-hover:opacity-100"
+//                               : "hidden"
+//                           }`}
+//                           aria-label="Next item"
+//                         >
+//                           <svg
+//                             className="w-5 h-5"
+//                             fill="none"
+//                             stroke="currentColor"
+//                             viewBox="0 0 24 24"
+//                           >
+//                             <path
+//                               strokeLinecap="round"
+//                               strokeLinejoin="round"
+//                               strokeWidth={2}
+//                               d="M9 5l7 7-7 7"
+//                             />
+//                           </svg>
+//                         </button>
+//                       </>
+//                     )}
+//                   </div>
+
+//                   {/* Item Index Indicator (Non-looping) */}
+//                   {totalShippingItems > 1 && (
+//                     <div className="text-center text-gray-400 text-sm mt-4">
+//                       Showing items{" "}
+//                       <span className="font-semibold text-white">
+//                         {safeStartIndex + 1}
+//                         {itemsToDisplay.length === 2
+//                           ? ` & ${safeStartIndex + 2}`
+//                           : ""}
+//                       </span>{" "}
+//                       of {totalShippingItems}
+//                     </div>
+//                   )}
+//                   {totalShippingItems === 1 && (
+//                     <div className="text-center text-gray-400 text-sm mt-4">
+//                       Showing 1 of 1 item
+//                     </div>
+//                   )}
+
 //                   <button
 //                     onClick={() => {
 //                       setShowCheckoutSummaryPage(false);
@@ -961,7 +1091,7 @@
 //                 </div>
 
 //                 <button
-//                   onClick={() => setShowCheckoutSummaryPage(true)} // MODIFIED: Go to checkout summary
+//                   onClick={() => setShowCheckoutSummaryPage(true)}
 //                   className="w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white py-3 rounded-xl font-semibold transition-all duration-200 shadow-lg hover:shadow-orange-500/25"
 //                 >
 //                   Checkout (${cartTotal.toFixed(2)})
@@ -1371,11 +1501,11 @@ const Electronics = () => {
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [priceRange, setPriceRange] = useState([0, 2000]);
   const [showFilters, setShowFilters] = useState(false);
+  // State that controls whether to display the Cart page or the main shop page
   const [showCartPage, setShowCartPage] = useState(false);
   const [showWishlistPage, setShowWishlistPage] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [showCheckoutSummaryPage, setShowCheckoutSummaryPage] = useState(false);
-  // MODIFIED STATE: For controlling the index of the first displayed item in the two-item shipment window
   const [startDisplayIndex, setStartDisplayIndex] = useState(0);
 
   const products = [
@@ -1823,37 +1953,48 @@ const Electronics = () => {
     );
   }
 
-  // RENDER CHECKOUT SUMMARY PAGE (MODIFIED RENDER BLOCK)
+  // RENDER CHECKOUT SUMMARY PAGE
   if (showCheckoutSummaryPage) {
     const totalShippingItems = cart.length;
+    // Max index for a 2-item display. If items=6, max=4 (to show 4 & 5). If items=1, max=0.
+    const maxStartIndex = totalShippingItems > 1 ? totalShippingItems - 2 : 0;
 
-    // Navigation functions (still move by 1 item)
+    // Safety clamp the index, ensuring it's within [0, maxStartIndex]
+    const safeStartIndex = Math.min(
+      Math.max(startDisplayIndex, 0),
+      maxStartIndex
+    );
+
+    // Non-looping Navigation functions
     const nextItem = () => {
+      // Move one step forward, but never past the maxStartIndex
       setStartDisplayIndex((prevIndex) =>
-        prevIndex === totalShippingItems - 1 ? 0 : prevIndex + 1
+        Math.min(prevIndex + 1, maxStartIndex)
       );
     };
 
     const prevItem = () => {
-      setStartDisplayIndex((prevIndex) =>
-        prevIndex === 0 ? totalShippingItems - 1 : prevIndex - 1
-      );
+      // Move one step back, but never below 0
+      setStartDisplayIndex((prevIndex) => Math.max(prevIndex - 1, 0));
     };
+
+    // Visibility checks for non-looping behavior:
+    // Show Prev only if the first item is not index 0
+    const canGoPrev = safeStartIndex > 0;
+    // Show Next only if the first item is not the maximum possible starting index
+    const canGoNext = safeStartIndex < maxStartIndex;
 
     // Logic to select the items to display (max 2 items)
     const itemsToDisplay = [];
     if (totalShippingItems > 0) {
-      // First item is always the start index
-      itemsToDisplay.push(cart[startDisplayIndex]);
+      // First item is always the safe start index
+      itemsToDisplay.push(cart[safeStartIndex]);
 
-      // Second item, only if there are two or more total items, and use modular arithmetic for wrapping
-      if (totalShippingItems > 1) {
-        const secondItemIndex = (startDisplayIndex + 1) % totalShippingItems;
-        itemsToDisplay.push(cart[secondItemIndex]);
+      // Second item, only if available (i.e., less than total items)
+      if (safeStartIndex + 1 < totalShippingItems) {
+        itemsToDisplay.push(cart[safeStartIndex + 1]);
       }
     }
-
-    // REMOVED ShippingItemCard component definition to inline the rendering and simplify logic
 
     return (
       <div className="min-h-screen bg-[#1a2037] p-8">
@@ -1969,7 +2110,7 @@ const Electronics = () => {
                   </div>
                 </div>
 
-                {/* Shipment (MODIFIED SECTION for 2 items) */}
+                {/* Shipment (UPDATED SECTION for 2 items and non-looping scroll) */}
                 <div className="space-y-4">
                   <p className="text-gray-300 font-medium">
                     Shipment 1/1{" "}
@@ -2020,13 +2161,18 @@ const Electronics = () => {
                       ))}
                     </div>
 
-                    {/* Navigation Arrows on Hover (Only show if more than one item) */}
-                    {totalShippingItems > 1 && (
+                    {/* Navigation Arrows on Hover (Only show if more than two items exist) */}
+                    {totalShippingItems > 2 && (
                       <>
                         {/* Previous Button (Left) */}
                         <button
                           onClick={prevItem}
-                          className="absolute left-0 top-1/2 transform -translate-y-1/2 -ml-3 opacity-0 group-hover:opacity-100 transition-opacity p-2 rounded-full bg-gray-800 hover:bg-gray-600 text-white z-10"
+                          // Hidden when at start (safeStartIndex === 0), visible otherwise on hover
+                          className={`absolute left-0 top-1/2 transform -translate-y-1/2 -ml-3 transition-opacity p-2 rounded-full bg-gray-800/80 hover:bg-gray-600 text-white z-10 ${
+                            canGoPrev
+                              ? "opacity-0 group-hover:opacity-100"
+                              : "hidden"
+                          }`}
                           aria-label="Previous item"
                         >
                           <svg
@@ -2047,7 +2193,12 @@ const Electronics = () => {
                         {/* Next Button (Right) */}
                         <button
                           onClick={nextItem}
-                          className="absolute right-0 top-1/2 transform -translate-y-1/2 -mr-3 opacity-0 group-hover:opacity-100 transition-opacity p-2 rounded-full bg-gray-800 hover:bg-gray-600 text-white z-10"
+                          // Hidden when at end (safeStartIndex === maxStartIndex), visible otherwise on hover
+                          className={`absolute right-0 top-1/2 transform -translate-y-1/2 -mr-3 transition-opacity p-2 rounded-full bg-gray-800/80 hover:bg-gray-600 text-white z-10 ${
+                            canGoNext
+                              ? "opacity-0 group-hover:opacity-100"
+                              : "hidden"
+                          }`}
                           aria-label="Next item"
                         >
                           <svg
@@ -2068,16 +2219,15 @@ const Electronics = () => {
                     )}
                   </div>
 
-                  {/* Item Index Indicator (Adjusted for 2 items) */}
+                  {/* Item Index Indicator (Non-looping) */}
                   {totalShippingItems > 1 && (
                     <div className="text-center text-gray-400 text-sm mt-4">
                       Showing items{" "}
                       <span className="font-semibold text-white">
-                        {startDisplayIndex + 1}
-                        {totalShippingItems > 1 &&
-                          ` & ${
-                            ((startDisplayIndex + 1) % totalShippingItems) + 1
-                          }`}
+                        {safeStartIndex + 1}
+                        {itemsToDisplay.length === 2
+                          ? ` & ${safeStartIndex + 2}`
+                          : ""}
                       </span>{" "}
                       of {totalShippingItems}
                     </div>
@@ -2219,12 +2369,13 @@ const Electronics = () => {
     );
   }
 
-  // RENDER CART PAGE
+  // RENDER CART PAGE (The dedicated page you requested)
   if (showCartPage) {
     return (
       <div className="min-h-screen bg-[#1a2037] p-8">
         <div className="max-w-7xl mx-auto">
           <button
+            // Navigates back to the main shopping page
             onClick={() => setShowCartPage(false)}
             className="flex items-center text-gray-400 hover:text-orange-500 transition-colors mb-6"
           >
@@ -2247,25 +2398,25 @@ const Electronics = () => {
 
           <div className="flex justify-between items-end mb-8 border-b border-gray-700 pb-4">
             <h2 className="text-3xl font-bold text-white">
-              Cart ({cartItemsCount}
-              {cartItemsCount === 1 ? "item" : "items"})
+              Your Shopping Cart ({cartItemsCount}
+              {cartItemsCount === 1 ? " item" : " items"})
             </h2>
           </div>
 
           <div className="flex flex-col lg:flex-row gap-8">
-            {/* Left Column: Cart Items */}
+            {/* Left Column: Cart Items List */}
             <div className="flex-grow space-y-4">
               {cart.length === 0 ? (
-                <div className="bg-gray-800 p-8 rounded-lg text-center">
+                <div className="bg-gray-800 p-8 rounded-lg text-center border border-gray-700">
                   <h3 className="text-xl font-semibold text-gray-400">
-                    Your cart is empty.
+                    Your cart is empty. Start adding some awesome electronics!
                   </h3>
                 </div>
               ) : (
                 cart.map((item) => (
                   <div
                     key={item.id}
-                    className="flex p-4 mb-2 bg-gray-800 border border-gray-700 rounded-lg shadow-lg"
+                    className="flex p-4 bg-gray-800 border border-gray-700 rounded-lg shadow-xl hover:shadow-2xl transition-shadow"
                   >
                     <img
                       src={item.image}
@@ -2277,8 +2428,8 @@ const Electronics = () => {
                       <h4 className="font-semibold text-lg text-white mb-1">
                         {item.name}
                       </h4>
-                      <p className="text-sm text-gray-400 mb-3">
-                        {item.description.substring(0, 50)}...
+                      <p className="text-sm text-gray-400 mb-3 line-clamp-2">
+                        {item.description}
                       </p>
 
                       <div className="flex items-center space-x-4">
@@ -2307,18 +2458,18 @@ const Electronics = () => {
                       </div>
                     </div>
 
-                    <div className="flex flex-col items-end justify-between">
+                    <div className="flex flex-col items-end justify-between ml-4">
                       <div className="text-xl font-bold text-white mb-2">
                         ${(item.price * item.quantity).toFixed(2)}
                       </div>
 
                       {/* Quantity Controls */}
-                      <div className="flex items-center space-x-0 bg-gray-700 rounded-lg overflow-hidden">
+                      <div className="flex items-center space-x-0 bg-gray-700 rounded-lg overflow-hidden border border-gray-600">
                         <button
                           onClick={() =>
                             updateQuantity(item.id, item.quantity - 1)
                           }
-                          className="p-2 hover:bg-gray-600 rounded-l-lg text-gray-300"
+                          className="p-2 w-8 h-8 flex items-center justify-center hover:bg-gray-600 text-gray-300 transition-colors"
                         >
                           <svg
                             className="w-4 h-4"
@@ -2334,14 +2485,14 @@ const Electronics = () => {
                             />
                           </svg>
                         </button>
-                        <span className="px-3 py-2 text-white text-sm border-l border-r border-gray-600">
+                        <span className="px-3 py-2 text-white text-sm border-l border-r border-gray-600 w-10 text-center">
                           {item.quantity}
                         </span>
                         <button
                           onClick={() =>
                             updateQuantity(item.id, item.quantity + 1)
                           }
-                          className="p-2 hover:bg-gray-600 rounded-r-lg text-gray-300"
+                          className="p-2 w-8 h-8 flex items-center justify-center hover:bg-gray-600 text-gray-300 transition-colors"
                         >
                           <svg
                             className="w-4 h-4"
@@ -2364,6 +2515,7 @@ const Electronics = () => {
               )}
             </div>
 
+            {/* Right Column: Cart Summary */}
             <div className="lg:w-80 flex-shrink-0">
               <div className="bg-gray-800 border border-gray-700 rounded-lg shadow-xl p-6 sticky top-24">
                 <h3 className="font-bold text-lg text-white mb-4 border-b border-gray-700 pb-3">
@@ -2378,10 +2530,23 @@ const Electronics = () => {
                 </div>
 
                 <button
+                  // Navigates to the Checkout Summary page
                   onClick={() => setShowCheckoutSummaryPage(true)}
-                  className="w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white py-3 rounded-xl font-semibold transition-all duration-200 shadow-lg hover:shadow-orange-500/25"
+                  disabled={cart.length === 0}
+                  className={`w-full py-3 rounded-xl font-semibold transition-all duration-200 shadow-lg ${
+                    cart.length > 0
+                      ? "bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white hover:shadow-orange-500/25"
+                      : "bg-gray-600 text-gray-400 cursor-not-allowed"
+                  }`}
                 >
                   Checkout (${cartTotal.toFixed(2)})
+                </button>
+
+                <button
+                  onClick={() => setShowCartPage(false)}
+                  className="w-full text-orange-500 hover:text-orange-400 mt-4 text-sm font-semibold transition-colors py-2 border border-orange-500 rounded-xl"
+                >
+                  Continue Shopping
                 </button>
               </div>
             </div>
@@ -2428,7 +2593,7 @@ const Electronics = () => {
               </div>
             </div>
 
-            {/* START OF NEW NAVBAR ICONS SECTION */}
+            {/* NAVBAR ICONS SECTION */}
             <div className="flex items-center space-x-6">
               {/* Account Dropdown Section */}
               <div
@@ -2444,7 +2609,7 @@ const Electronics = () => {
                 {isDropdownOpen && (
                   <div
                     className="absolute right-0 top-full w-48 border border-gray-600 rounded-md shadow-xl py-1"
-                    style={{ backgroundColor: "#2A2F47", zIndex: 60 }} // Added z-index to ensure it is above the sticky header
+                    style={{ backgroundColor: "#2A2F47", zIndex: 60 }}
                   >
                     {/* Sign Up Link Styled as a Button */}
                     <div className="p-2">
@@ -2460,8 +2625,6 @@ const Electronics = () => {
                     <Link
                       to="/login"
                       className="group flex items-center space-x-2 px-4 py-2 text-white hover:text-orange-400 transition-colors rounded-md"
-                      // Inline styles are often used in React for dynamic styling but for Tailwind this is non-standard.
-                      // Leaving them as they were provided for minimal change but note that the hover styles in the original snippet were flawed React inline syntax.
                       onMouseEnter={(e) =>
                         (e.currentTarget.style.backgroundColor = "#3A4058")
                       }
@@ -2513,6 +2676,7 @@ const Electronics = () => {
                 )}
               </div>
 
+              {/* CART NAVIGATION BUTTON (This handles the click to the cart page) */}
               <button
                 onClick={() => setShowCartPage(true)}
                 className="flex items-center space-x-1 text-white hover:text-orange-400 transition-colors"
@@ -2528,7 +2692,6 @@ const Electronics = () => {
                 <span className="hidden md:inline">Cart</span>
               </button>
             </div>
-            {/* END OF NEW NAVBAR ICONS SECTION */}
           </div>
         </div>
       </header>
