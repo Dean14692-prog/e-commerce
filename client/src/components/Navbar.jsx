@@ -157,7 +157,7 @@ const Navbar = () => {
         <div className="flex-grow flex items-center">
           <Link to="/" className="flex items-center space-x-1">
             <span className="text-orange-500 font-extrabold text-2xl">
-              JUMIA
+              MUTINDA 
             </span>
           </Link>
           <div className="flex-1 max-w-lg mx-8 hidden lg:block">

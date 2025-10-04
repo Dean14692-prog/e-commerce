@@ -31,13 +31,14 @@ import HomePage from "./pages/HomePage";
 import Electronics from "./pages/Electronics"; 
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
+import Dashboard from "./pages/Dashboard";
 
 const App = () => {
   return (
     <BrowserRouter>
       <div className="min-h-screen font-sans bg-[#1a2037]">
         {/* <Navbar /> */}
-
+{/* <Dashboard /> */}
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<Login />} />
