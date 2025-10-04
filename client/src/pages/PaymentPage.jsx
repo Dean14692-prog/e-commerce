@@ -74,17 +74,13 @@ const OrderSuccessPage = () => {
     setToast({ isVisible: false, message: "" });
   };
 
-  const handleGoToOrders = () => {
-    navigate("/orders");
-  };
+
 
   return (
-    // The main div uses p-4 md:p-8 and is relative for absolute positioning of the icon.
     <div className="min-h-screen bg-[#1a2037] p-4 md:p-8 flex items-center justify-center font-sans relative">
-      {/* ⬅️ BACK ICON - Absolute positioned to the top-left corner */}
-      {/* We use 'top-4' and 'left-4' (or 'top-8' and 'left-8' for md screens) to respect the padding */}
+      
       <Link
-        to="/invoice" // Navigate back to the shopping/home page
+        to="/invoice" 
         className="absolute top-4 left-4 md:top-8 md:left-8 inline-flex items-center text-gray-400 hover:text-orange-500 transition-colors z-10"
       >
         <svg
@@ -101,10 +97,8 @@ const OrderSuccessPage = () => {
           />
         </svg>
       </Link>
-      {/* End Back Icon */}
 
       <div className="max-w-xl w-full bg-gray-900 border border-gray-700 rounded-lg shadow-2xl p-8 text-center">
-        {/* Success Icon */}
         <div className="mx-auto w-24 h-24 flex items-center justify-center bg-orange-500 rounded-full mb-6">
           <svg
             className="w-16 h-16 text-white"
@@ -121,12 +115,10 @@ const OrderSuccessPage = () => {
           </svg>
         </div>
 
-        {/* Title */}
         <h1 className="text-3xl md:text-4xl font-extrabold text-orange-400 mb-2">
           Order Ready for Payment
         </h1>
 
-        {/* Greeting */}
         <p className="text-gray-300 text-xl font-semibold mb-6">
           Hello,{" "}
           <span className="text-white">
@@ -135,7 +127,6 @@ const OrderSuccessPage = () => {
           ! Please finalize your payment.
         </p>
 
-        {/* Amount Summary */}
         <div className="bg-gray-800 p-4 rounded-lg mb-6 border border-gray-700">
           <p className="text-sm font-medium text-gray-400 mb-1">
             Total Amount Due
@@ -148,7 +139,6 @@ const OrderSuccessPage = () => {
           </p>
         </div>
 
-        {/* STK Push Button */}
         <button
           onClick={handleSTKPush}
           className="w-full py-3 mb-6 rounded-xl font-extrabold text-lg transition-all duration-200 shadow-xl bg-orange-500 hover:bg-orange-600 text-white hover:shadow-orange-500/25 transform hover:scale-[1.01]"
@@ -157,7 +147,6 @@ const OrderSuccessPage = () => {
         </button>
       </div>
 
-      {/* Toast Notification */}
       <CustomToast
         message={toast.message}
         isVisible={toast.isVisible}
